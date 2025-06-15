@@ -1,0 +1,26 @@
+{
+  "Players":[
+    {
+      "index": 0,
+      "name": "player1",
+      "gender": "M",
+      "moveSpeed": 2.5,
+      "cookSpeed": 10,
+      "cookSkill": 1,
+      "wipingSpeed": 10,
+      "belonging": 1,
+      "service": 1
+    },
+    {
+      "index": 1,
+      "name": "player2",
+      "gender": "F",
+      "moveSpeed": 2.5,
+      "cookSpeed": 10,
+      "cookSkill": 1,
+      "wipingSpeed": 10,
+      "belonging": 1,
+      "service": 1
+    }
+  ]
+}
