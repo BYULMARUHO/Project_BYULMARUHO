@@ -4,7 +4,7 @@
       "index": 0,
       "name": "player1",
       "gender": "M",
-      "moveSpeed": 2.5,
+      "moveSpeed": 2,
       "cookSpeed": 10,
       "cookSkill": 1,
       "wipingSpeed": 10,
