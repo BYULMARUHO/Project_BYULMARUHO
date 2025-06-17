@@ -1,13 +1,55 @@
 fileFormatVersion: 2
-guid: 77795bb176727064293b2b733ece852c
+guid: 5bf151725cfc33c429c62627728a4eff
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6890420582472480886
-    second: SDTEST_2_0
+      213: -5040315706208783846
+    second: Player_Girl_Front_0
   - first:
-      213: -8270568626638509890
-    second: SDTEST_2_1
+      213: 5117841407670368245
+    second: Player_Girl_Front_1
+  - first:
+      213: -3308057658796220871
+    second: Player_Girl_Front_2
+  - first:
+      213: 4416750310637529643
+    second: Player_Girl_Front_3
+  - first:
+      213: 1186869107257769460
+    second: Player_Girl_Front_4
+  - first:
+      213: -7596714453375305112
+    second: Player_Girl_Front_5
+  - first:
+      213: -2243740678665096401
+    second: Player_Girl_Front_6
+  - first:
+      213: 4456120055799944981
+    second: Player_Girl_Front_7
+  - first:
+      213: 9101066801532255035
+    second: Player_Girl_Front_8
+  - first:
+      213: 6394198409556716601
+    second: Player_Girl_Front_9
+  - first:
+      213: -8504960566474207113
+    second: Player_Girl_Front_10
+  - first:
+      213: -4436483616425885175
+    second: Player_Girl_Front_11
+  - first:
+      213: 1542191574938060170
+    second: Player_Girl_Front_12
+  - first:
+      213: 4220032714461099558
+    second: Player_Girl_Front_13
+  - first:
+      213: -177915129270600568
+    second: Player_Girl_Front_14
+  - first:
+      213: 8577403201786531607
+    second: Player_Girl_Front_15
   externalObjects: {}
   serializedVersion: 13
   mipmaps:

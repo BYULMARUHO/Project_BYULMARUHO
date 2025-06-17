@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f1b3b4b945939a54ea0b23d3396115fb, type: 3}
-  m_Name: SDTEST_SkeletonData
+  m_Name: Player_Girl_Side_SkeletonData
   m_EditorClassIdentifier: 
   atlasAssets:
-  - {fileID: 11400000, guid: 8926d80a37be115419099ba40b6e09e8, type: 2}
-  scale: 0.01
-  skeletonJSON: {fileID: 4900000, guid: 76f42d9134dda7e4aba5d47d76c219e7, type: 3}
+  - {fileID: 11400000, guid: 4ec040ed129c9dd4bbbf37c66f4bb3bd, type: 2}
+  scale: 0.0015
+  skeletonJSON: {fileID: 4900000, guid: d3367a5d02e87804b82963a347263229, type: 3}
   isUpgradingBlendModeMaterials: 0
   blendModeMaterials:
     requiresBlendModeMaterials: 0
@@ -28,4 +28,4 @@ MonoBehaviour:
   toAnimation: []
   duration: []
   defaultMix: 0.2
-  controller: {fileID: 9100000, guid: d929d66c2f4381747a9d8651e052e327, type: 2}
+  controller: {fileID: 0}

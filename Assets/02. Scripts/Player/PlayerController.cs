@@ -1,5 +1,7 @@
+using Spine.Unity;
 using UnityEngine;
 using Utils.ClassUtility;
+using Utils.EnumTypes;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,7 +10,9 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb;
     private Collider2D cd;
+    private SkeletonAnimation[] skeletons = new SkeletonAnimation[3];
 
+    public PlayerState state;
     public Vector2 dir;
 
     private void Awake()
@@ -16,6 +20,9 @@ public class PlayerController : MonoBehaviour
         parser = GameObject.Find("JSONParser").GetComponent<JSONParser>();
         rb = GetComponent<Rigidbody2D>();
         cd = GetComponent<Collider2D>();
+
+        for (int i = 0; i < 3; i++)
+            skeletons[i] = transform.GetChild(i).GetComponent<SkeletonAnimation>();
     }
 
     private void Start()
@@ -25,7 +32,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-
+        PlayerStateController();
     }
 
     private void FixedUpdate()
@@ -36,6 +43,12 @@ public class PlayerController : MonoBehaviour
     void Init()
     {
         status = parser.LoadPlayerDataFromJSON(0);
+        state = PlayerState.Idle;
+    }
+
+    public void PlayerStateController()
+    {
+
     }
 
     public void Move()
