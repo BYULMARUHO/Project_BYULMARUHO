@@ -6,18 +6,19 @@ TagManager:
   tags:
   - Customer
   - Staff
+  - Line
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Wall
   - Water
   - UI
   - Player
-  - 
-  - 
-  - 
-  - 
+  - Customer
+  - Staff
+  - Objects
+  - Line
   - 
   - 
   - 

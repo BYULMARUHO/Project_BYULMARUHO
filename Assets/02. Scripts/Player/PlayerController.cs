@@ -9,65 +9,45 @@ public class PlayerController : MonoBehaviour
     public PlayerData status;
 
     private Rigidbody2D rb;
-    private Collider2D cd;
     private SkeletonAnimation[] skeletons = new SkeletonAnimation[3];
     private SkeletonAnimation currentSkeleton;
 
-    private PlayerState state;
-    private Vector2 input;
-    private Vector2 moveDir;
     private Direction currentDir;
+    private Vector2 moveDir;
 
     private string currentAnim = "";
-
-    // 이동 유지용 grace period
-    private float moveTimer = 0f;
-    private readonly float gracePeriod = 0.1f;
     private const float moveThreshold = 0.01f;
+
+    private bool isMove = false;
 
     private void Awake()
     {
         parser = GameObject.Find("JSONParser").GetComponent<JSONParser>();
+        status = parser.LoadPlayerDataFromJSON(0);
         rb = GetComponent<Rigidbody2D>();
-        cd = GetComponent<Collider2D>();
-
-        for (int i = 0; i < 3; i++)
-            skeletons[i] = transform.GetChild(i).GetComponent<SkeletonAnimation>();
-    }
-
-    private void Start()
-    {
-        Init();
+        skeletons = GetComponentsInChildren<SkeletonAnimation>(true);
     }
 
     private void Update()
     {
         Move();
-        SetAnim();
-    }
-
-    // 초기화 함수
-    void Init()
-    {
-        status = parser.LoadPlayerDataFromJSON(0);
-        state = PlayerState.Idle;
+        AnimStateHandler();
     }
 
     // 이동 구현
     public void Move()
     {
-        input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        moveDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        rb.MovePosition(rb.position + (moveDir.normalized * status.moveSpeed * Time.deltaTime));
 
-        // 방향 전환
-        if (input.y > 0)
+        if (moveDir.y > 0)
             SetDirection(Direction.Back);
-        else if (input.y < 0)
+        else if (moveDir.y < 0)
             SetDirection(Direction.Front);
-        else if (input.x != 0)
-            SetDirection(input.x > 0 ? Direction.Right : Direction.Left);
+        else if (moveDir.x != 0)
+            SetDirection(moveDir.x > 0 ? Direction.Right : Direction.Left);
 
-        moveDir = new Vector2(input.x, input.y).normalized;
-        rb.MovePosition(rb.position + (moveDir * status.moveSpeed * Time.deltaTime));
+        isMove = moveDir.sqrMagnitude > moveThreshold;
     }
 
     // 방향 변경
@@ -95,26 +75,18 @@ public class PlayerController : MonoBehaviour
         };
 
         currentAnim = "";
-
-        if (currentSkeleton == null)
-            Debug.LogError("currentSkeleton is null in SetDirection! Direction: " + dir);
     }
 
-    // 애니메이션 변경
-    void SetAnim()
+    // 애니메이션 상태 관리
+    void AnimStateHandler()
     {
-        bool isMoving = moveDir.sqrMagnitude > moveThreshold;
-
-        if (isMoving)
+        if (isMove)
         {
-            moveTimer = gracePeriod;
             PlayAnim("Walking");
         }
         else
         {
-            moveTimer -= Time.deltaTime;
-            if (moveTimer <= 0f)
-                PlayAnim("Idle");
+            PlayAnim("Idle");
         }
     }
 
