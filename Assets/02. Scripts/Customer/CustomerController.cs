@@ -1,4 +1,6 @@
 using Spine;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Utils.EnumTypes;
@@ -6,36 +8,34 @@ using Utils.EnumTypes;
 public class CustomerController : MonoBehaviour
 {
     private NavMeshAgent agent;
-    private Pathfinder pathFinder;
-    private TargetController targetController;
+    private GameObject orderBubble;
 
     public CustomerState state;
-    private float moveSpeed = 100.0f;
+    private float moveSpeed = 2.5f;
 
-    private float waitTime = 10.0f;
+    private const float waitTime = 10.0f;
     private float currentTime = 0.0f;
-
-    private bool isOrder = false;
-    private bool isSit = false;
+    private int lineIndex = -1;
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        pathFinder = GetComponent<Pathfinder>();
-        targetController = GameObject.Find("Line").GetComponent<TargetController>();
+        orderBubble = transform.GetChild(1).GetChild(0).gameObject;
     }
 
     private void Start()
     {
         Init();
+        StandInLine();
     }
 
+    // 초기화
     public void Init()
     {
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-        //pathFinder.moveSpeed = moveSpeed;
-        StandInLine();
+        agent.speed = moveSpeed;
+        state = CustomerState.Idle;
     }
 
     private void Update()
@@ -52,6 +52,7 @@ public class CustomerController : MonoBehaviour
             case CustomerState.Walk:
                 break;
             case CustomerState.Wait:
+                RequestOrder();
                 break;
             case CustomerState.Sit:
                 break;
@@ -68,32 +69,73 @@ public class CustomerController : MonoBehaviour
         }
     }
 
+    // 카운터로 이동 후 줄서기
     public void StandInLine()
     {
-        //pathFinder.target = targetController.TargetHandler();
-        if(targetController.TargetHandler() !=  null)
+        lineIndex = CustomerManager.Instance.GetCustomerIndex();
+        agent.SetDestination(CustomerManager.Instance.targets[lineIndex].position);
+    }
+
+    // 주문하기
+    public void RequestOrder()
+    {
+        if (!HasReacheDestination())
+            return;
+
+        orderBubble.SetActive(true);
+
+        if (currentTime < waitTime)
         {
-            Transform target = targetController.TargetHandler();
-            agent.SetDestination(target.position);
+            currentTime += Time.deltaTime;
+        }
+        else
+        {
+            currentTime = 0;
+
         }
     }
 
-    public void RequestOrder()
+    // 음식 받음
+    public void ReceiveFood()
     {
-        Debug.Log("::: Order :::");
-        isOrder = true;
+
     }
 
-    public void StartOrderProcess()
+    // 가게 떠나기
+    private void LeaveStore()
     {
+        CustomerManager.Instance.LeaveCustomer(lineIndex);
 
+        if(state == CustomerState.Angry)
+        {
+
+        }
+
+        Destroy(gameObject, 1.0f);
+    }
+
+    // AI가 목적지에 도착했는지 확인용
+    private bool HasReacheDestination()
+    {
+        // 경로 계산이 끝났다면
+        if (!agent.pathPending)
+        {
+            // 남은 거리가 짧다면
+            if(agent.remainingDistance <= agent.stoppingDistance)
+            {
+                // 움직이지 않는 상태라면
+                if(!agent.hasPath || agent.velocity.sqrMagnitude == 0.0f)
+                    return true;
+            }
+        }
+        return false;
     }
 
     private void OnTriggerEnter2D(Collider2D coll)
     {
         if (coll.CompareTag("Line"))
         {
-            RequestOrder();
+            state = CustomerState.Wait;
         }
     }
 }
