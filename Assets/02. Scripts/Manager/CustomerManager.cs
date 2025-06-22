@@ -40,6 +40,16 @@ public class CustomerManager : MonoBehaviour
         return -1;
     }
 
+    // ¼Õ´Ô ¹æ¹®
+    public void VisitCustomer()
+    {
+        if (GetCustomerIndex() == -1)
+            return;
+
+
+    }
+
+    // ¼Õ´Ô ÅğÀå
     public void LeaveCustomer(int index)
     {
         if (index >= 0 && index < lineOccupied.Length)
