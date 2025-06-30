@@ -1,12 +1,18 @@
 using UnityEngine;
 
-public class PlayerCooking : MonoBehaviour
+public class PlayerBehaviour : MonoBehaviour
 {
     private PlayerController playerController;
 
     private void Start()
     {
         playerController = GetComponent<PlayerController>();
+    }
+
+    // 주문 받기
+    public void OnTakeOrder()
+    {
+
     }
 
     public void OnCookFinished(string cookedMenu)

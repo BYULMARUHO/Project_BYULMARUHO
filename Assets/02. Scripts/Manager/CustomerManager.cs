@@ -45,8 +45,6 @@ public class CustomerManager : MonoBehaviour
     {
         if (GetCustomerIndex() == -1)
             return;
-
-
     }
 
     // ¼Õ´Ô ÅğÀå
