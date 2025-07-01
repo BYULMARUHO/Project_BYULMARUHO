@@ -7,8 +7,19 @@ public class CustomerManager : MonoBehaviour
     private static CustomerManager instance;
     public static CustomerManager Instance {  get { return instance; } }
 
-    public List<Transform> targets;
-    private bool[] lineOccupied;
+    public List<GameObject> chairs;
+    public GameObject customerPrefab;
+
+    private float currentTime = 0.0f;
+    private float appeatedTime = 0.0f;
+    private float minAppearedTime = 5.0f;
+    private float maxAppearedTime = 15.0f;
+
+    private int todayAppearedCustomerNum = 0;
+    private int maxCustomerNum = 10;
+
+    private bool[] isChairOccupied;
+    private bool isFullHouse = false;
 
     private void Awake()
     {
@@ -20,20 +31,27 @@ public class CustomerManager : MonoBehaviour
         Init();
     }
 
-    private void Init()
+    private void Update()
     {
-        targets = GameObject.Find("Line").GetComponentsInChildren<Transform>().ToList();
-        targets.RemoveAt(0);
-        lineOccupied = new bool[targets.Count];
+        AppearedCustomer();
     }
 
-    public int GetCustomerIndex()
+    private void Init()
     {
-        for (int i = 0; i < lineOccupied.Length; i++)
+        chairs = GameObject.FindGameObjectsWithTag("Chair").ToList();
+        isChairOccupied = new bool[chairs.Count];
+
+        appeatedTime = Random.Range(minAppearedTime, maxAppearedTime);
+        todayAppearedCustomerNum = 0;
+    }
+
+    public int GetChairIndex()
+    {
+        for (int i = 0; i < isChairOccupied.Length; i++)
         {
-            if (!lineOccupied[i])
+            if (!isChairOccupied[i])
             {
-                lineOccupied[i] = true;
+                isChairOccupied[i] = true;
                 return i;
             }
         }
@@ -41,18 +59,29 @@ public class CustomerManager : MonoBehaviour
     }
 
     // ¼Õ´Ô ¹æ¹®
-    public void VisitCustomer()
+    public void AppearedCustomer()
     {
-        if (GetCustomerIndex() == -1)
+        if (GetChairIndex() == -1)
             return;
+
+        if (currentTime < appeatedTime)
+        {
+            currentTime += Time.deltaTime;
+        }
+        else
+        {
+            currentTime = 0.0f;
+            appeatedTime = Random.Range(minAppearedTime, maxAppearedTime);
+
+        }
     }
 
     // ¼Õ´Ô ÅðÀå
     public void LeaveCustomer(int index)
     {
-        if (index >= 0 && index < lineOccupied.Length)
+        if (index >= 0 && index < isChairOccupied.Length)
         {
-            lineOccupied[index] = false;
+            isChairOccupied[index] = false;
         }
     }
 }

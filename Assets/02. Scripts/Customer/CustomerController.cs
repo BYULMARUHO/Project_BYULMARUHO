@@ -1,6 +1,3 @@
-using Spine;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Utils.EnumTypes;
@@ -15,7 +12,7 @@ public class CustomerController : MonoBehaviour
 
     private const float waitTime = 10.0f;
     private float currentTime = 0.0f;
-    private int lineIndex = -1;
+    private int chairIndex = -1;
 
     private void Awake()
     {
@@ -26,7 +23,7 @@ public class CustomerController : MonoBehaviour
     private void Start()
     {
         Init();
-        StandInLine();
+        MoveToChair();
     }
 
     // 초기화
@@ -52,9 +49,9 @@ public class CustomerController : MonoBehaviour
             case CustomerState.Walk:
                 break;
             case CustomerState.Wait:
-                RequestOrder();
                 break;
             case CustomerState.Sit:
+                RequestOrder();
                 break;
             case CustomerState.Eat:
                 break;
@@ -70,10 +67,10 @@ public class CustomerController : MonoBehaviour
     }
 
     // 카운터로 이동 후 줄서기
-    public void StandInLine()
+    public void MoveToChair()
     {
-        lineIndex = CustomerManager.Instance.GetCustomerIndex();
-        agent.SetDestination(CustomerManager.Instance.targets[lineIndex].position);
+        chairIndex = CustomerManager.Instance.GetChairIndex();
+        agent.SetDestination(CustomerManager.Instance.chairs[chairIndex].transform.position);
     }
 
     // 주문하기
@@ -91,7 +88,6 @@ public class CustomerController : MonoBehaviour
         else
         {
             currentTime = 0;
-
         }
     }
 
@@ -104,7 +100,7 @@ public class CustomerController : MonoBehaviour
     // 가게 떠나기
     private void LeaveStore()
     {
-        CustomerManager.Instance.LeaveCustomer(lineIndex);
+        CustomerManager.Instance.LeaveCustomer(chairIndex);
 
         if(state == CustomerState.Angry)
         {
@@ -133,9 +129,9 @@ public class CustomerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D coll)
     {
-        if (coll.CompareTag("Line"))
+        if (coll.CompareTag("Chair"))
         {
-            state = CustomerState.Wait;
+            state = CustomerState.Sit;
         }
     }
 }

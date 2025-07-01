@@ -6,8 +6,8 @@ TagManager:
   tags:
   - Customer
   - Staff
-  - Line
   - Door
+  - Chair
   layers:
   - Default
   - TransparentFX
@@ -19,7 +19,7 @@ TagManager:
   - Customer
   - Staff
   - Objects
-  - Line
+  - Chair
   - Door
   - UIWorldSpace
   - 
