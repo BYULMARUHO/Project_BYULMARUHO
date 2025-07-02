@@ -1,23 +1,30 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 using Utils.EnumTypes;
 
 public class CustomerController : MonoBehaviour
 {
     private NavMeshAgent agent;
     private GameObject orderBubble;
+    private Image menuImage;
+    private Slider orderSlider;
 
     public CustomerState state;
-    private float moveSpeed = 2.5f;
-
-    private const float waitTime = 10.0f;
-    private float currentTime = 0.0f;
+    public Item orderMenu;
     private int chairIndex = -1;
+
+    private float moveSpeed = 2.5f;
+    private const float waitTime = 30.0f;
+    private float currentTime = 0.0f;
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         orderBubble = transform.GetChild(1).GetChild(0).gameObject;
+        menuImage = orderBubble.transform.GetChild(1).GetComponent<Image>();
+        orderSlider = orderBubble.transform.GetChild(0).GetComponent<Slider>();
     }
 
     private void Start()
@@ -32,7 +39,11 @@ public class CustomerController : MonoBehaviour
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         agent.speed = moveSpeed;
-        state = CustomerState.Idle;
+
+        currentTime = 0;
+        orderMenu = null;
+        menuImage.sprite = null;
+        orderBubble.SetActive(false);
     }
 
     private void Update()
@@ -48,10 +59,11 @@ public class CustomerController : MonoBehaviour
                 break;
             case CustomerState.Walk:
                 break;
-            case CustomerState.Wait:
+            case CustomerState.Order:
+                StartCoroutine(RequestOrder());
                 break;
-            case CustomerState.Sit:
-                RequestOrder();
+            case CustomerState.Wait:
+                StartWaiting();
                 break;
             case CustomerState.Eat:
                 break;
@@ -66,7 +78,7 @@ public class CustomerController : MonoBehaviour
         }
     }
 
-    // 카운터로 이동 후 줄서기
+    // 비어있는 좌석으로 이동
     public void MoveToChair()
     {
         chairIndex = CustomerManager.Instance.GetChairIndex();
@@ -74,25 +86,43 @@ public class CustomerController : MonoBehaviour
     }
 
     // 주문하기
-    public void RequestOrder()
+    private IEnumerator RequestOrder()
     {
         if (!HasReacheDestination())
-            return;
+            yield return null;
 
+        orderMenu = OrderManager.Instance.AddOrder();
+
+        yield return new WaitForSeconds(1.5f);
+
+        menuImage.sprite = orderMenu.item.ItemImage;
         orderBubble.SetActive(true);
+        state = CustomerState.Wait;
+    }
 
+    // 기다리는 중
+    public void StartWaiting()
+    {
         if (currentTime < waitTime)
         {
             currentTime += Time.deltaTime;
+            orderSlider.value = currentTime / waitTime;
         }
         else
         {
-            currentTime = 0;
+            Init();
+            state = CustomerState.Order;
         }
     }
 
     // 음식 받음
     public void ReceiveFood()
+    {
+
+    }
+
+    // 화남
+    public void Angry()
     {
 
     }
@@ -131,7 +161,7 @@ public class CustomerController : MonoBehaviour
     {
         if (coll.CompareTag("Chair"))
         {
-            state = CustomerState.Sit;
+            state = CustomerState.Order;
         }
     }
 }

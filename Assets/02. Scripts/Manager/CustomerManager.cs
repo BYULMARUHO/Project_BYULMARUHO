@@ -1,6 +1,6 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using System.Linq;
+using System.Collections.Generic;
 
 public class CustomerManager : MonoBehaviour
 {
@@ -9,11 +9,12 @@ public class CustomerManager : MonoBehaviour
 
     public List<GameObject> chairs;
     public GameObject customerPrefab;
+    private Transform doorPosition;
 
-    private float currentTime = 0.0f;
-    private float appeatedTime = 0.0f;
-    private float minAppearedTime = 5.0f;
-    private float maxAppearedTime = 15.0f;
+    public float currentTime = 0.0f;
+    public float appeatedTime = 0.0f;
+    private int minAppearedTime = 10;
+    private int maxAppearedTime = 15;
 
     private int todayAppearedCustomerNum = 0;
     private int maxCustomerNum = 10;
@@ -33,11 +34,13 @@ public class CustomerManager : MonoBehaviour
 
     private void Update()
     {
+        isFullHouse = IsFullHouse();
         AppearedCustomer();
     }
 
     private void Init()
     {
+        doorPosition = GameObject.FindGameObjectWithTag("Door").transform;
         chairs = GameObject.FindGameObjectsWithTag("Chair").ToList();
         isChairOccupied = new bool[chairs.Count];
 
@@ -45,6 +48,7 @@ public class CustomerManager : MonoBehaviour
         todayAppearedCustomerNum = 0;
     }
 
+    // 남아있는 좌석 위치 확인
     public int GetChairIndex()
     {
         for (int i = 0; i < isChairOccupied.Length; i++)
@@ -55,13 +59,26 @@ public class CustomerManager : MonoBehaviour
                 return i;
             }
         }
-        return -1;
+        return -1 ;
+    }
+
+    // 가게가 만석인지 확인
+    public bool IsFullHouse()
+    {
+        int chairOccupiedNum = 0;
+
+        for (int i = 0; i < isChairOccupied.Length; i++)
+        {
+            if (isChairOccupied[i])
+                chairOccupiedNum++;
+        }
+        return (chairOccupiedNum >= isChairOccupied.Length) ? true : false;
     }
 
     // 손님 방문
     public void AppearedCustomer()
     {
-        if (GetChairIndex() == -1)
+        if (isFullHouse || todayAppearedCustomerNum >= maxCustomerNum)
             return;
 
         if (currentTime < appeatedTime)
@@ -72,7 +89,8 @@ public class CustomerManager : MonoBehaviour
         {
             currentTime = 0.0f;
             appeatedTime = Random.Range(minAppearedTime, maxAppearedTime);
-
+            Instantiate(customerPrefab, doorPosition.position, Quaternion.identity);
+            todayAppearedCustomerNum++;
         }
     }
 

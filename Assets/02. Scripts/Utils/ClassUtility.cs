@@ -39,4 +39,27 @@ namespace Utils.ClassUtility
         public float belonging;
         public float service;
     }
+
+    public class RecipeDataList
+    {
+        public List<RecipeData> Recipes;
+    }
+
+    [System.Serializable]
+    public class RecipeData
+    {
+        public int Index;
+        public int RecipeID;
+        public int RecipeQty;
+        public int Ingre1ID;
+        public int Ingre1Qty;
+        public int Ingre2ID;
+        public int Ingre2Qty;
+        public int Ingre3ID;
+        public int Ingre3Qty;
+        public int Ingre4ID;
+        public int Ingre4Qty;
+        public string CookType;
+        public int CookTime;
+    }
 }

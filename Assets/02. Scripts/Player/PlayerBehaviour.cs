@@ -18,6 +18,5 @@ public class PlayerBehaviour : MonoBehaviour
     public void OnCookFinished(string cookedMenu)
     {
         Debug.Log($"주문 요리 완료: {cookedMenu}");
-        OrderManager.Instance.ServeNextOrder(cookedMenu);
     }
 }
