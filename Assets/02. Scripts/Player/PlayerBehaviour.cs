@@ -46,14 +46,23 @@ public class PlayerBehaviour : MonoBehaviour
                 takeOrderObject.SetActive(false);
             }
         }
-        else
-        {
-            takeOrderObject.SetActive(false);
-        }
     }
 
+    // 요리하기
     public void OnCookFinished(string cookedMenu)
     {
         Debug.Log($"주문 요리 완료: {cookedMenu}");
+    }
+
+    // 음식 옮기기
+    public void PutFood()
+    {
+
+    }
+
+    // 타격
+    public void OnBlow()
+    {
+
     }
 }

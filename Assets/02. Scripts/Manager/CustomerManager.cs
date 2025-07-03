@@ -9,7 +9,7 @@ public class CustomerManager : MonoBehaviour
 
     public List<GameObject> chairs;
     public GameObject customerPrefab;
-    private Transform doorPosition;
+    public Transform doorPosition;
 
     public float currentTime = 0.0f;
     public float appeatedTime = 0.0f;

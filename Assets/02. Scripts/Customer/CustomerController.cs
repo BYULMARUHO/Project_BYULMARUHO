@@ -68,6 +68,8 @@ public class CustomerController : MonoBehaviour
     {
         switch (state)
         {
+            case CustomerState.Walk:
+                break;
             case CustomerState.WaitOrder:
                 StartCoroutine(OnWaitOrder());
                 break;
@@ -84,6 +86,7 @@ public class CustomerController : MonoBehaviour
             case CustomerState.ReJoice:
                 break;
             case CustomerState.Angry:
+                OnAngry();
                 break;
             case CustomerState.Truth:
                 break;
@@ -97,12 +100,12 @@ public class CustomerController : MonoBehaviour
         agent.SetDestination(CustomerManager.Instance.chairs[chairIndex].transform.position);
     }
 
+    // 주문서
     private IEnumerator OnWaitOrder()
     {
-        if (!HasReacheDestination())
-            yield return null;
-
+        delightObject.SetActive(true);
         yield return new WaitForSeconds(1.5f);
+        delightObject.SetActive(false);
 
         menuImage.sprite = menuBoard;
         orderObject.SetActive(true);
@@ -110,7 +113,7 @@ public class CustomerController : MonoBehaviour
         isWaitOrder = true;
     }
 
-    // 주문하기
+    // 메뉴 주문
     private IEnumerator RequestOrder()
     {
         isWaitOrder = false;
@@ -139,8 +142,8 @@ public class CustomerController : MonoBehaviour
         else
         {
             Init();
-            DelightHandler(-10);
-            state = CustomerState.WaitOrder;
+            DelightHandler(-25);
+            state = (delight <= 0) ? CustomerState.Angry : CustomerState.WaitOrder;
         }
     }
 
@@ -153,20 +156,15 @@ public class CustomerController : MonoBehaviour
     // 화남
     public void OnAngry()
     {
-
+        // 화난 애니메이션 및 효과 넣기
+        LeaveStore();
     }
 
     // 가게 떠나기
     private void LeaveStore()
     {
-        CustomerManager.Instance.LeaveCustomer(chairIndex);
-
-        if(state == CustomerState.Angry)
-        {
-
-        }
-
-        Destroy(gameObject, 1.0f);
+        agent.SetDestination(CustomerManager.Instance.doorPosition.position);
+        state = CustomerState.Walk;
     }
 
     // 만족도 수치 변화
@@ -186,7 +184,7 @@ public class CustomerController : MonoBehaviour
         else if (delight > 60)
             delightFillImage.color = Color.green;
 
-        delightSlider.value = delight / 100;
+        delightSlider.value = delight / 100.0f;
     }
 
     // AI가 목적지에 도착했는지 확인용
@@ -206,11 +204,17 @@ public class CustomerController : MonoBehaviour
         return false;
     }
 
-    private void OnTriggerEnter2D(Collider2D coll)
+    private void OnTriggerStay2D(Collider2D coll)
     {
-        if (coll.CompareTag("Chair"))
+        if (coll.CompareTag("Chair") && HasReacheDestination())
         {
             state = CustomerState.WaitOrder;
+        }
+        else if(coll.CompareTag("Door") && HasReacheDestination())
+        {
+            CustomerManager.Instance.LeaveCustomer(chairIndex);
+            Destroy(gameObject, 1.0f);
+            Debug.Log("Customer LEave");
         }
     }
 }
