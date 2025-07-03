@@ -21,7 +21,8 @@ namespace Utils.EnumTypes
     {
         Idle,     // 기본
         Walk,     // 걷기
-        Order,    // 주문
+        WaitOrder,// 주문 대시
+        Order,    // 주문 함
         Wait,     // 기다림
         Eat,      // 먹기
         Drink,    // 마시기

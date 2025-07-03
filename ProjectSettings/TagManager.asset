@@ -21,8 +21,8 @@ TagManager:
   - Objects
   - Chair
   - Door
-  - UIWorldSpace
-  - 
+  - CustomerUIWorldSpace
+  - PlayerUIWorldSpace
   - 
   - 
   - 

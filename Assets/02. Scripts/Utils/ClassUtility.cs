@@ -40,6 +40,17 @@ namespace Utils.ClassUtility
         public float service;
     }
 
+    public class CustomerDataList
+    {
+        public List <CustomerData> Customers;
+    }
+
+    [System.Serializable]
+    public class CustomerData
+    {
+
+    }
+
     public class RecipeDataList
     {
         public List<RecipeData> Recipes;

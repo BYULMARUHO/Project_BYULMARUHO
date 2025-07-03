@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -7,24 +8,36 @@ using Utils.EnumTypes;
 public class CustomerController : MonoBehaviour
 {
     private NavMeshAgent agent;
-    private GameObject orderBubble;
+    private GameObject orderObject;
+    private GameObject delightObject;
+    private Slider delightSlider;
+    private Slider bubbleSlider;
+    private Image delightFillImage;
     private Image menuImage;
-    private Slider orderSlider;
+    public Sprite menuBoard;
 
     public CustomerState state;
     public Item orderMenu;
     private int chairIndex = -1;
+    private int delight = 50;
 
     private float moveSpeed = 2.5f;
-    private const float waitTime = 30.0f;
     private float currentTime = 0.0f;
+    private float orderWaitTime = 15.0f;
+    private float menuWaitTime = 30.0f;
+
+    public bool isWaitOrder = false;
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        orderBubble = transform.GetChild(1).GetChild(0).gameObject;
-        menuImage = orderBubble.transform.GetChild(1).GetComponent<Image>();
-        orderSlider = orderBubble.transform.GetChild(0).GetComponent<Slider>();
+        orderObject = transform.GetChild(1).GetChild(0).gameObject;
+        delightObject = transform.GetChild(1).GetChild(1).gameObject;
+        delightSlider = delightObject.transform.GetChild(0).GetComponent<Slider>();
+        bubbleSlider = orderObject.transform.GetChild(0).GetComponent<Slider>();
+        delightFillImage = delightObject.transform.GetChild(0).GetComponentInChildren<Image>(true);
+        menuImage = orderObject.transform.GetChild(1).GetComponent<Image>();
+        DelightHandler(0);
     }
 
     private void Start()
@@ -43,7 +56,7 @@ public class CustomerController : MonoBehaviour
         currentTime = 0;
         orderMenu = null;
         menuImage.sprite = null;
-        orderBubble.SetActive(false);
+        orderObject.SetActive(false);
     }
 
     private void Update()
@@ -55,9 +68,8 @@ public class CustomerController : MonoBehaviour
     {
         switch (state)
         {
-            case CustomerState.Idle:
-                break;
-            case CustomerState.Walk:
+            case CustomerState.WaitOrder:
+                StartCoroutine(OnWaitOrder());
                 break;
             case CustomerState.Order:
                 StartCoroutine(RequestOrder());
@@ -85,33 +97,50 @@ public class CustomerController : MonoBehaviour
         agent.SetDestination(CustomerManager.Instance.chairs[chairIndex].transform.position);
     }
 
-    // 주문하기
-    private IEnumerator RequestOrder()
+    private IEnumerator OnWaitOrder()
     {
         if (!HasReacheDestination())
             yield return null;
 
+        yield return new WaitForSeconds(1.5f);
+
+        menuImage.sprite = menuBoard;
+        orderObject.SetActive(true);
+        state = CustomerState.Wait;
+        isWaitOrder = true;
+    }
+
+    // 주문하기
+    private IEnumerator RequestOrder()
+    {
+        isWaitOrder = false;
+        orderObject.SetActive(false);
+        delightObject.SetActive(true);
         orderMenu = OrderManager.Instance.AddOrder();
 
         yield return new WaitForSeconds(1.5f);
 
         menuImage.sprite = orderMenu.item.ItemImage;
-        orderBubble.SetActive(true);
+        delightObject.SetActive(false);
+        orderObject.SetActive(true);
         state = CustomerState.Wait;
     }
 
     // 기다리는 중
     public void StartWaiting()
     {
-        if (currentTime < waitTime)
+        float _waitTime = (isWaitOrder) ? orderWaitTime : menuWaitTime;
+
+        if (currentTime < _waitTime)
         {
             currentTime += Time.deltaTime;
-            orderSlider.value = currentTime / waitTime;
+            bubbleSlider.value = currentTime / _waitTime;
         }
         else
         {
             Init();
-            state = CustomerState.Order;
+            DelightHandler(-10);
+            state = CustomerState.WaitOrder;
         }
     }
 
@@ -122,7 +151,7 @@ public class CustomerController : MonoBehaviour
     }
 
     // 화남
-    public void Angry()
+    public void OnAngry()
     {
 
     }
@@ -138,6 +167,26 @@ public class CustomerController : MonoBehaviour
         }
 
         Destroy(gameObject, 1.0f);
+    }
+
+    // 만족도 수치 변화
+    public void DelightHandler(int num)
+    {
+        if (delight + num <= 0)
+            delight = 0;
+        else if (delight + num >= 100)
+            delight = 100;
+        else
+            delight += num;
+
+        if (delight <= 30)
+            delightFillImage.color = Color.red;
+        else if (delight > 30 && delight <= 60)
+            delightFillImage.color = Color.yellow;
+        else if (delight > 60)
+            delightFillImage.color = Color.green;
+
+        delightSlider.value = delight / 100;
     }
 
     // AI가 목적지에 도착했는지 확인용
@@ -161,7 +210,7 @@ public class CustomerController : MonoBehaviour
     {
         if (coll.CompareTag("Chair"))
         {
-            state = CustomerState.Order;
+            state = CustomerState.WaitOrder;
         }
     }
 }

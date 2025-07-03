@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     private SkeletonAnimation currentSkeleton;
 
     private Direction currentDir;
-    private Vector2 moveDir;
+    public Vector2 moveDir;
 
     private string currentAnim = "";
     private const float moveThreshold = 0.01f;
@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // 애니메이션 상태 관리
-    void AnimStateHandler()
+    private void AnimStateHandler()
     {
         if (isMove)
         {
@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // 애니메이션 실행
-    void PlayAnim(string animName, bool loop = true)
+    private void PlayAnim(string animName, bool loop = true)
     {
         if (currentSkeleton == null || currentAnim == animName)
             return;
