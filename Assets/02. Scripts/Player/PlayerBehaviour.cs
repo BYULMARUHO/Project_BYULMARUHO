@@ -1,17 +1,25 @@
+using TMPro;
 using UnityEngine;
 using Utils.EnumTypes;
 
 public class PlayerBehaviour : MonoBehaviour
 {
     private PlayerController playerController;
-    private GameObject takeOrderObject;
+    private GameObject interactionObject;
+    public TextMeshProUGUI interactionText;
 
+    private GameObject servingFood;
+    private Transform foodPos;
+
+    private RaycastHit2D hit;
     public Vector2 dir;
 
     private void Start()
     {
         playerController = GetComponent<PlayerController>();
-        takeOrderObject = transform.GetChild(3).GetChild(0).gameObject;
+        interactionObject = transform.GetChild(3).GetChild(0).gameObject;
+        interactionText = interactionObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        foodPos = transform.GetChild(4).transform;
     }
 
     private void Update()
@@ -19,21 +27,25 @@ public class PlayerBehaviour : MonoBehaviour
         if (playerController.moveDir != Vector2.zero)
             dir = playerController.moveDir;
 
+        OnDirection();
         OnTakeOrder();
+        OnCooking();
+        OnServeing();
     }
 
-    // 주문 받기
+    // 주문받기
     public void OnTakeOrder()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position + new Vector3(0, 0.5f, 0), dir, 2f, 1 << 7);
-        Debug.DrawRay(transform.position + new Vector3(0, 0.5f, 0), dir * 2.0f, Color.red);
+        if (playerController.isHolding)
+            return;
 
         if (hit.collider != null)
         {
             CustomerController _customer = hit.collider?.GetComponent<CustomerController>();
             if(_customer != null && _customer.isWaitOrder)
             {
-                takeOrderObject.SetActive(true);
+                interactionText.text = "주문받기";
+                interactionObject.SetActive(true);
 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
@@ -43,26 +55,70 @@ public class PlayerBehaviour : MonoBehaviour
             }
             else
             {
-                takeOrderObject.SetActive(false);
+                interactionObject.SetActive(false);
             }
         }
     }
 
     // 요리하기
-    public void OnCookFinished(string cookedMenu)
+    public void OnCooking()
     {
-        Debug.Log($"주문 요리 완료: {cookedMenu}");
+        if (playerController.isHolding)
+            return;
+
+        if (hit.collider != null)
+        {
+            if (hit.collider.CompareTag("GasStove"))
+            {
+                interactionText.text = "요리하기";
+                interactionObject.SetActive(true);
+
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    playerController.isHolding = true;
+                    servingFood = Instantiate(hit.transform?.GetChild(0).gameObject, foodPos);
+                }
+            }
+        }
     }
 
-    // 음식 옮기기
-    public void PutFood()
+    // 서빙하기
+    public void OnServeing()
     {
+        if (hit.collider != null)
+        {
+            CustomerController _customer = hit.collider?.GetComponent<CustomerController>();
+            if (_customer != null && _customer.isWaitFood && playerController.isHolding)
+            {
+                if (_customer.orderMenu.item.ItemID == servingFood.GetComponent<Item>().item.ItemID)
+                {
+                    interactionText.text = "서빙하기";
+                    interactionObject.SetActive(true);
 
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        Destroy(servingFood);
+                        playerController.isHolding = false;
+                        StartCoroutine(_customer.ReceiveFood());
+                    }
+                }
+            }
+        }
     }
 
     // 타격
     public void OnBlow()
     {
 
+    }
+
+    // 방향 확인
+    public void OnDirection()
+    {
+        hit = Physics2D.Raycast(transform.position + new Vector3(0, 0.5f, 0), dir, 2f, (1 << 7) + (1 << 14));
+        Debug.DrawRay(transform.position + new Vector3(0, 0.5f, 0), dir * 2.0f, Color.red);
+
+        if(hit.collider == null)
+            interactionObject.SetActive(false);
     }
 }

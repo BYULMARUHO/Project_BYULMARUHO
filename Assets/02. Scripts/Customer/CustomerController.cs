@@ -24,9 +24,11 @@ public class CustomerController : MonoBehaviour
     private float moveSpeed = 2.5f;
     private float currentTime = 0.0f;
     private float orderWaitTime = 15.0f;
-    private float menuWaitTime = 30.0f;
+    private float foodWaitTime = 30.0f;
+    private float eatingTime = 15.0f;
 
     public bool isWaitOrder = false;
+    public bool isWaitFood = false;
 
     private void Awake()
     {
@@ -52,6 +54,9 @@ public class CustomerController : MonoBehaviour
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         agent.speed = moveSpeed;
+
+        isWaitOrder = false;
+        isWaitFood = false;
 
         currentTime = 0;
         orderMenu = null;
@@ -80,6 +85,7 @@ public class CustomerController : MonoBehaviour
                 StartWaiting();
                 break;
             case CustomerState.Eat:
+                OnEating();
                 break;
             case CustomerState.Drink:
                 break;
@@ -117,6 +123,8 @@ public class CustomerController : MonoBehaviour
     private IEnumerator RequestOrder()
     {
         isWaitOrder = false;
+        isWaitFood = true;
+
         orderObject.SetActive(false);
         delightObject.SetActive(true);
         orderMenu = OrderManager.Instance.AddOrder();
@@ -132,7 +140,7 @@ public class CustomerController : MonoBehaviour
     // 기다리는 중
     public void StartWaiting()
     {
-        float _waitTime = (isWaitOrder) ? orderWaitTime : menuWaitTime;
+        float _waitTime = (isWaitOrder) ? orderWaitTime : foodWaitTime;
 
         if (currentTime < _waitTime)
         {
@@ -148,9 +156,32 @@ public class CustomerController : MonoBehaviour
     }
 
     // 음식 받음
-    public void ReceiveFood()
+    public IEnumerator ReceiveFood()
     {
+        Init();
+        DelightHandler(10);
+        delightObject.SetActive(true);
 
+        yield return new WaitForSeconds(1.5f);
+
+        delightObject.SetActive(false);
+        state = CustomerState.Eat;
+    }
+
+    // 식사하기
+    public void OnEating()
+    {
+        if (currentTime < eatingTime)
+        {
+            currentTime += Time.deltaTime;
+            bubbleSlider.value = currentTime / eatingTime;
+        }
+        else
+        {
+            Init();
+            DelightHandler(10);
+            state = CustomerState.WaitOrder;
+        }
     }
 
     // 화남

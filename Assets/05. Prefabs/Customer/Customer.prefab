@@ -97,7 +97,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2787993089154006114}
   m_Layer: 12
-  m_Name: Order
+  m_Name: Bubble
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -272,6 +272,7 @@ MonoBehaviour:
   state: 0
   orderMenu: {fileID: 0}
   isWaitOrder: 0
+  isWaitFood: 0
 --- !u!1 &1851982219308110174
 GameObject:
   m_ObjectHideFlags: 0

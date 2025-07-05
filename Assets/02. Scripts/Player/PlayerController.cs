@@ -18,7 +18,8 @@ public class PlayerController : MonoBehaviour
     private string currentAnim = "";
     private const float moveThreshold = 0.01f;
 
-    private bool isMove = false;
+    public bool isMove = false;
+    public bool isHolding = false;
 
     private void Awake()
     {
