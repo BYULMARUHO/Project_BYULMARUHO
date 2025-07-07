@@ -38,7 +38,12 @@ public class CustomerController : MonoBehaviour
         bubbleSlider = orderObject.transform.GetChild(0).GetComponent<Slider>();
         delightFillImage = delightObject.transform.GetChild(0).GetComponentInChildren<Image>(true);
         menuImage = orderObject.transform.GetChild(1).GetComponent<Image>();
+
         DelightHandler(0);
+        agent.speed = moveSpeed;
+        agent.avoidancePriority = 50;
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
     }
 
     private void Start()
@@ -50,10 +55,6 @@ public class CustomerController : MonoBehaviour
     // √ ±‚»≠
     public void Init()
     {
-        agent.updateRotation = false;
-        agent.updateUpAxis = false;
-        agent.speed = moveSpeed;
-
         isWaitOrder = false;
         isWaitFood = false;
 
