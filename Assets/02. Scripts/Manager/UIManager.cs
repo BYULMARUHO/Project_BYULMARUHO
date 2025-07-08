@@ -1,15 +1,22 @@
+using TMPro;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private static UIManager instance;
+    public static UIManager Instance {  get { return instance; } }
+
+    private TextMeshProUGUI goldText;
+
+    private void Awake()
     {
-        
+        if (instance != null)
+            Destroy(instance);
+        else
+            instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
         
     }

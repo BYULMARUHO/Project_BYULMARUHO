@@ -41,6 +41,7 @@ namespace Utils.EnumTypes
     // 아이템 타입
     public enum ItemType
     {
+        Equipment,   // 도구
         Ingredient,  // 식재료
         Food         // 음식
     }

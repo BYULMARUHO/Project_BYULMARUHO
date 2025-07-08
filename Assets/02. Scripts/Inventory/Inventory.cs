@@ -1,16 +1,65 @@
 using UnityEngine;
+using Utils.EnumTypes;
 
 public class Inventory : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    // 인벤토리 활성화 여부 (true 상태라면 카메라 움직임과 외부 입력 막기)
+    public static bool inventoryActivated = false;
+
+    private GameObject inventoryBase;
+    private GameObject slotParent;
+
+    private Slot[] slots;
+
+    private void Start()
     {
-        
+        inventoryBase = transform.GetChild(0).gameObject;
+        slotParent = inventoryBase.transform.GetChild(0).gameObject;
+        slots = slotParent.GetComponentsInChildren<Slot>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        InventoryHandler();
+    }
+
+    public void InventoryHandler()
+    {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            inventoryActivated = !inventoryActivated;
+
+            if (inventoryActivated)
+                inventoryBase.SetActive(true);
+            else
+                inventoryBase.SetActive(false);
+        }
+    }
+
+    // 아이템 획득
+    public void AcquireItem(ItemScriptableObject _item, int _count = 1)
+    {
+        // 같은 종류의 아이템이 있다면 갯수 더해주기
+        if(_item.ItemType != ItemType.Equipment)
+        {
+            for(int i = 0; i < slots.Length; i++)
+            {
+                if (slots[i].item != null && slots[i].item.ItemName == _item.ItemName)
+                {
+                    slots[i].SetSlotCount(_count);
+                    return;
+                }
+            }
+        }
+
+        // 같은 종류의 아이템이 없다면 저장할 새로운 슬롯 생성
+        for(int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i].item == null)
+            {
+                slots[i].AddItem(_item, _count);
+                return;
+            }
+        }
     }
 }

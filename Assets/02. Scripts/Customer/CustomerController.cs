@@ -41,7 +41,6 @@ public class CustomerController : MonoBehaviour
 
         DelightHandler(0);
         agent.speed = moveSpeed;
-        agent.avoidancePriority = 50;
         agent.updateRotation = false;
         agent.updateUpAxis = false;
     }
