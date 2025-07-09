@@ -6,7 +6,7 @@ public class UIManager : MonoBehaviour
     private static UIManager instance;
     public static UIManager Instance {  get { return instance; } }
 
-    private TextMeshProUGUI goldText;
+    public TextMeshProUGUI goldText;
 
     private void Awake()
     {
@@ -19,5 +19,10 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         
+    }
+
+    public void ChangeCoinText(int _coin)
+    {
+        goldText.text = _coin.ToString();
     }
 }

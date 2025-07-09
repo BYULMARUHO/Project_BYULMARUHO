@@ -24,14 +24,16 @@ public class GameManager : MonoBehaviour
     }
 
     // 재화 변동
-    public void CoinHandler(int _gold)
+    public bool CoinHandler(int _gold)
     {
         if(coin + _gold < 0)
         {
             Debug.Log("::: 재화 부족 :::");
-            return;
+            return false;
         }
 
         coin += _gold;
+        UIManager.Instance.ChangeCoinText(coin);
+        return true;
     }
 }

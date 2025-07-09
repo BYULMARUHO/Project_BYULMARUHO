@@ -12,9 +12,9 @@ public class Slot : MonoBehaviour
     private GameObject countObject;
     private TextMeshProUGUI countText;
 
-    private void Start()
+    public void Init()
     {
-        itemImage = transform.GetChild(0).GetComponent<Image>();
+        itemImage = transform.GetChild(0).GetComponentInChildren<Image>(true);
         countObject = transform.GetChild(0).GetChild(0).gameObject;
         countText = countObject.GetComponentInChildren<TextMeshProUGUI>(true);
     }

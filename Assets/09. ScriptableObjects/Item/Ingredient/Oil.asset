@@ -18,6 +18,6 @@ MonoBehaviour:
   ItemDescription: "\uC0C1\uC810\uC5D0\uC11C \uAD6C\uD560 \uC218 \uC788\uB294 \uC2DD\uBB3C\uC131
     \uAE30\uB984. \uC694\uB9AC\uC5D0 \uACE0\uC18C\uD55C \uD5A5\uACFC \uB9DB\uC744
     \uB354\uD55C\uB2E4."
-  ItemType: 0
+  ItemType: 1
   ItemCost: 5
   ItemDelight: 0

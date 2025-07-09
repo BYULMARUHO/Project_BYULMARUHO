@@ -16,6 +16,9 @@ public class Inventory : MonoBehaviour
         inventoryBase = transform.GetChild(0).gameObject;
         slotParent = inventoryBase.transform.GetChild(0).gameObject;
         slots = slotParent.GetComponentsInChildren<Slot>();
+
+        for (int i = 0; i < slots.Length; i++)
+            slots[i].Init();
     }
 
     private void Update()
@@ -44,7 +47,7 @@ public class Inventory : MonoBehaviour
         {
             for(int i = 0; i < slots.Length; i++)
             {
-                if (slots[i].item != null && slots[i].item.ItemName == _item.ItemName)
+                if (slots[i].item != null && slots[i].item.ItemID == _item.ItemID)
                 {
                     slots[i].SetSlotCount(_count);
                     return;

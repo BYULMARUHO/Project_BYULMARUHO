@@ -17,6 +17,6 @@ MonoBehaviour:
   ItemName: "\uBC00\uAC00\uB8E8"
   ItemDescription: "\uACF1\uAC8C \uBE7B\uC740 \uD558\uC580\uC0C9 \uBC00\uAC00\uB8E8. 
     \uBC18\uC8FD\uC774 \uD544\uC694\uD55C \uC694\uB9AC\uC758 \uC0DD\uBA85\uC774\uB2E4."
-  ItemType: 0
+  ItemType: 1
   ItemCost: 5
   ItemDelight: 0
