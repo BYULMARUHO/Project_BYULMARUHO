@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Utils.EnumTypes;
 
 public class Inventory : MonoBehaviour
