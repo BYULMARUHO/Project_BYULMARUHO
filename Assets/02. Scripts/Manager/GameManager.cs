@@ -5,7 +5,10 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     public static GameManager Instance {  get { return instance; } }
 
+    private int level = 1;
     private int coin = 100;
+    private int experience = 0;
+
     private bool isGameOver = false;
 
     private void Awake()

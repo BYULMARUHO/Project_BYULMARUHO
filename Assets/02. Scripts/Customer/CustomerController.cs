@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -9,9 +10,9 @@ public class CustomerController : MonoBehaviour
     private NavMeshAgent agent;
     private GameObject orderObject;
     private GameObject delightObject;
-    private Slider delightSlider;
+    private TextMeshProUGUI coinText;
+    private TextMeshProUGUI delightText;
     private Slider bubbleSlider;
-    private Image delightFillImage;
     private Image menuImage;
     public Sprite menuBoard;
 
@@ -34,12 +35,11 @@ public class CustomerController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         orderObject = transform.GetChild(1).GetChild(0).gameObject;
         delightObject = transform.GetChild(1).GetChild(1).gameObject;
-        delightSlider = delightObject.transform.GetChild(0).GetComponent<Slider>();
+        coinText = delightObject.transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>();
+        delightText = delightObject.transform.GetChild(1).GetComponentInChildren<TextMeshProUGUI>();
         bubbleSlider = orderObject.transform.GetChild(0).GetComponent<Slider>();
-        delightFillImage = delightObject.transform.GetChild(0).GetComponentInChildren<Image>(true);
         menuImage = orderObject.transform.GetChild(1).GetComponent<Image>();
 
-        DelightHandler(0);
         agent.speed = moveSpeed;
         agent.updateRotation = false;
         agent.updateUpAxis = false;
@@ -58,7 +58,6 @@ public class CustomerController : MonoBehaviour
         isWaitFood = false;
 
         currentTime = 0;
-        orderMenu = null;
         menuImage.sprite = null;
         orderObject.SetActive(false);
     }
@@ -75,7 +74,7 @@ public class CustomerController : MonoBehaviour
             case CustomerState.Walk:
                 break;
             case CustomerState.WaitOrder:
-                StartCoroutine(OnWaitOrder());
+                OnWaitOrder();
                 break;
             case CustomerState.Order:
                 StartCoroutine(RequestOrder());
@@ -106,12 +105,8 @@ public class CustomerController : MonoBehaviour
     }
 
     // 주문서
-    private IEnumerator OnWaitOrder()
+    private void OnWaitOrder()
     {
-        delightObject.SetActive(true);
-        yield return new WaitForSeconds(1.5f);
-        delightObject.SetActive(false);
-
         menuImage.sprite = menuBoard;
         orderObject.SetActive(true);
         state = CustomerState.Wait;
@@ -125,13 +120,11 @@ public class CustomerController : MonoBehaviour
         isWaitFood = true;
 
         orderObject.SetActive(false);
-        delightObject.SetActive(true);
         orderMenu = OrderManager.Instance.AddOrder();
 
         yield return new WaitForSeconds(1.5f);
 
         menuImage.sprite = orderMenu.item.ItemImage;
-        delightObject.SetActive(false);
         orderObject.SetActive(true);
         state = CustomerState.Wait;
     }
@@ -149,7 +142,6 @@ public class CustomerController : MonoBehaviour
         else
         {
             Init();
-            DelightHandler(-25);
             state = (delight <= 0) ? CustomerState.Angry : CustomerState.WaitOrder;
         }
     }
@@ -158,13 +150,14 @@ public class CustomerController : MonoBehaviour
     public IEnumerator ReceiveFood()
     {
         Init();
-        DelightHandler(10);
+        DelightHandler(true);
         delightObject.SetActive(true);
 
         yield return new WaitForSeconds(1.5f);
 
         delightObject.SetActive(false);
         state = CustomerState.Eat;
+        orderMenu = null;
     }
 
     // 식사하기
@@ -178,7 +171,6 @@ public class CustomerController : MonoBehaviour
         else
         {
             Init();
-            DelightHandler(10);
             state = CustomerState.WaitOrder;
         }
     }
@@ -197,24 +189,22 @@ public class CustomerController : MonoBehaviour
         state = CustomerState.Walk;
     }
 
-    // 만족도 수치 변화
-    public void DelightHandler(int num)
+    // 만족도 변화
+    public void DelightHandler(bool isDelight, int num = 0)
     {
-        if (delight + num <= 0)
-            delight = 0;
-        else if (delight + num >= 100)
-            delight = 100;
+        if(isDelight)
+        {
+            delightObject.SetActive(true);
+            coinText.text = string.Format("+" + "<color=green>{0}</color>", orderMenu.item.ItemCost);
+            delightText.text = string.Format("+" + "<color=green>{0}</color>", orderMenu.item.ItemDelight);
+
+            GameManager.Instance.CoinHandler(orderMenu.item.ItemCost);
+        }
         else
-            delight += num;
-
-        if (delight <= 30)
-            delightFillImage.color = Color.red;
-        else if (delight > 30 && delight <= 60)
-            delightFillImage.color = Color.yellow;
-        else if (delight > 60)
-            delightFillImage.color = Color.green;
-
-        delightSlider.value = delight / 100.0f;
+        {
+            delightObject.SetActive(true);
+            delightText.text = string.Format("-" + "<color=red>{0}</color>", orderMenu.item.ItemDelight);
+        }
     }
 
     // AI가 목적지에 도착했는지 확인용

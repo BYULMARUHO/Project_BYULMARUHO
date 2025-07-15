@@ -25,4 +25,9 @@ public class UIManager : MonoBehaviour
     {
         goldText.text = _coin.ToString();
     }
+
+    public void ChangeExperienceSlider()
+    {
+
+    }
 }
