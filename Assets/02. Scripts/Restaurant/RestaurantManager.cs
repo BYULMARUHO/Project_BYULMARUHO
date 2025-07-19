@@ -1,15 +1,11 @@
-using System.Collections.Generic;
 using UnityEngine;
 using Utils.ClassUtility;
+using System.Collections.Generic;
 
 public class RestaurantManager : MonoBehaviour
 {
     private static RestaurantManager instance;
     public static RestaurantManager Instance {  get { return instance; } }
-
-    private JSONParser parser;
-    public List<RecipeData> recipe;
-    public List<Item> items;
 
     private float currentTime = 120.0f;
     private float openHours = 120.0f;
@@ -22,8 +18,6 @@ public class RestaurantManager : MonoBehaviour
             Destroy(instance);
         else
             instance = this;
-
-        Init();
     }
 
     private void Update()
@@ -43,24 +37,17 @@ public class RestaurantManager : MonoBehaviour
         }
     }
 
-    public void Init()
-    {
-        parser = GameObject.Find("JSONParser").GetComponent<JSONParser>();
-        recipe = parser.LoadRecipeDataFromJSON();
-    }
-
     public Item AddOrder()
     {
-        // 재료 갯수 확인
-        int index = Random.Range(0, recipe.Count);
+        //int index = Random.Range(0, recipe.Count);
 
-        for(int i = 0; i < items.Count; i++)
-        {
-            if (recipe[index].RecipeID == items[i].item.ItemID)
-            {
-                return items[i];
-            }
-        }
+        //for (int i = 0; i < items.Count; i++)
+        //{
+        //    if (recipe[index].RecipeID == items[i].item.ItemID)
+        //    {
+        //        return items[i];
+        //    }
+        //}
         return null;
     }
 
