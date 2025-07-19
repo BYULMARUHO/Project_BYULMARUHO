@@ -28,9 +28,31 @@ public class PlayerBehaviour : MonoBehaviour
             dir = playerController.moveDir;
 
         OnDirection();
+        OnMenuSetting();
         OnTakeOrder();
         OnCooking();
         OnServeing();
+    }
+
+    // 메뉴 결정
+    public void OnMenuSetting()
+    {
+        if (playerController.isHolding)
+            return;
+
+        if (hit.collider != null)
+        {
+            if (hit.collider.CompareTag("MenuBoard"))
+            {
+                interactionText.text = "메뉴설정";
+                interactionObject.SetActive(true);
+
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    UIManager.Instance.menuBoard.SetActive(true);
+                }
+            }
+        }
     }
 
     // 주문받기
@@ -52,10 +74,6 @@ public class PlayerBehaviour : MonoBehaviour
                     _customer.Init();
                     _customer.state = CustomerState.Order;
                 }
-            }
-            else
-            {
-                interactionObject.SetActive(false);
             }
         }
     }
@@ -106,16 +124,10 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
-    // 타격
-    public void OnBlow()
-    {
-
-    }
-
     // 방향 확인
     public void OnDirection()
     {
-        hit = Physics2D.Raycast(transform.position + new Vector3(0, 0.5f, 0), dir, 2f, (1 << 7) + (1 << 14));
+        hit = Physics2D.Raycast(transform.position + new Vector3(0, 0.5f, 0), dir, 2f, (1 << 7) + (1 << 9) + (1 << 14));
         Debug.DrawRay(transform.position + new Vector3(0, 0.5f, 0), dir * 2.0f, Color.red);
 
         if(hit.collider == null)

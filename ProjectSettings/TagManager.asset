@@ -9,6 +9,7 @@ TagManager:
   - Door
   - Chair
   - GasStove
+  - MenuBoard
   layers:
   - Default
   - TransparentFX

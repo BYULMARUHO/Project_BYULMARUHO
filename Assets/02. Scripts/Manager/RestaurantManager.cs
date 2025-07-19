@@ -2,14 +2,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using Utils.ClassUtility;
 
-public class OrderManager : MonoBehaviour
+public class RestaurantManager : MonoBehaviour
 {
-    private static OrderManager instance;
-    public static OrderManager Instance {  get { return instance; } }
+    private static RestaurantManager instance;
+    public static RestaurantManager Instance {  get { return instance; } }
 
     private JSONParser parser;
     public List<RecipeData> recipe;
     public List<Item> items;
+
+    private float currentTime = 120.0f;
+    private float openHours = 120.0f;
+
+    public bool isOpen = false;
 
     private void Awake()
     {
@@ -19,6 +24,23 @@ public class OrderManager : MonoBehaviour
             instance = this;
 
         Init();
+    }
+
+    private void Update()
+    {
+        if (!isOpen)
+            return;
+
+        if (currentTime > 0)
+        {
+            currentTime -= Time.deltaTime;
+            UIManager.Instance.ChangeTimerText(currentTime);
+        }
+        else
+        {
+            currentTime = openHours;
+            isOpen = false;
+        }
     }
 
     public void Init()
@@ -40,5 +62,10 @@ public class OrderManager : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public void OpenRestaurant()
+    {
+        isOpen = true;
     }
 }

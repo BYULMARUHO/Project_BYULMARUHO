@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     private int level = 1;
     private int coin = 100;
     private int experience = 0;
+    private int maxExperience = 100;
 
     private bool isGameOver = false;
 
@@ -18,6 +19,12 @@ public class GameManager : MonoBehaviour
         else
             instance = this;
 
+        Init();
+    }
+
+    private void Init()
+    {
+        Screen.SetResolution(1920, 1080, true);
         Application.targetFrameRate = 65;
     }
 
@@ -38,5 +45,14 @@ public class GameManager : MonoBehaviour
         coin += _gold;
         UIManager.Instance.ChangeCoinText(coin);
         return true;
+    }
+
+    // 경험치 변동
+    public void ExperienceHandler(int _exp)
+    {
+        if(experience + _exp >= maxExperience)
+        {
+            experience = maxExperience;
+        }
     }
 }

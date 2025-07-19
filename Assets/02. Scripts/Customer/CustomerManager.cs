@@ -34,6 +34,9 @@ public class CustomerManager : MonoBehaviour
 
     private void Update()
     {
+        if (!RestaurantManager.Instance.isOpen)
+            return;
+
         isFullHouse = IsFullHouse();
         AppearedCustomer();
     }
