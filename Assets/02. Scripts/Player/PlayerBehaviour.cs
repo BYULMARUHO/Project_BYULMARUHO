@@ -49,7 +49,7 @@ public class PlayerBehaviour : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    UIManager.Instance.menuBoard.SetActive(true);
+                    RecipeManager.Instance.menuBoard.SetActive(true);
                 }
             }
         }

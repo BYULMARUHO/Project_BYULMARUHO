@@ -9,7 +9,10 @@ public class RecipeManager : MonoBehaviour
 
     private JSONParser parser;
     public List<RecipeData> recipe;
-    public List<Item> items;
+
+    public GameObject menuBoard;
+    private GameObject recipeParent;
+    private RecipeSlot[] recipeSlots;
 
     private void Awake()
     {
@@ -21,13 +24,33 @@ public class RecipeManager : MonoBehaviour
         Init();
     }
 
-    public void Init()
+    private void Start()
     {
         parser = GameObject.Find("JSONParser").GetComponent<JSONParser>();
         recipe = parser.LoadRecipeDataFromJSON();
 
-        // 테스트를 위한 레시피 해금 (나중에 삭제 필요)
-        for (int i = 0; i < items.Count; i++)
-            items[i].isUnLock = true;
+        menuBoard = transform.GetChild(0).gameObject;
+        recipeParent = menuBoard.transform.GetChild(0).gameObject;
+        recipeSlots = recipeParent.GetComponentsInChildren<RecipeSlot>();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (menuBoard.activeSelf)
+                menuBoard.SetActive(false);
+        }
+    }
+
+    public void Init()
+    {
+
+    }
+
+    // 레시피 관리
+    public void RecipeHandler()
+    {
+
     }
 }

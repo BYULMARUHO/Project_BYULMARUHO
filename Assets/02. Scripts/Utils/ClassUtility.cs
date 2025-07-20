@@ -70,6 +70,8 @@ namespace Utils.ClassUtility
         public int Ingre3Qty;
         public int Ingre4ID;
         public int Ingre4Qty;
+        public int Ingre5ID;
+        public int Ingre5Qty;
         public string CookType;
         public int CookTime;
     }
