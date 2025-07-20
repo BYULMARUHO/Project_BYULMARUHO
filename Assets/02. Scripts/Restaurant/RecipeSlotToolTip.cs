@@ -1,16 +1,16 @@
+using TMPro;
 using UnityEngine;
 
 public class RecipeSlotToolTip : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    private GameObject toolTipBase;
+    private GameObject recipePhanel;
+    private GameObject ingredientPhanel;
 
-    // Update is called once per frame
-    void Update()
+    private TextMeshProUGUI recipeNameText;
+
+    private void Awake()
     {
-        
+        toolTipBase = transform.GetChild(0).gameObject;
     }
 }

@@ -45,9 +45,6 @@ public class RecipeSlot : MonoBehaviour
     // 제조에 필요한 수량 확인
     private void CheckQuantity()
     {
-        for(int i = 0; i < 5; i++)
-        {
 
-        }
     }
 }
