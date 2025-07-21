@@ -37,20 +37,6 @@ public class RestaurantManager : MonoBehaviour
         }
     }
 
-    public Item AddOrder()
-    {
-        //int index = Random.Range(0, recipe.Count);
-
-        //for (int i = 0; i < items.Count; i++)
-        //{
-        //    if (recipe[index].RecipeID == items[i].item.ItemID)
-        //    {
-        //        return items[i];
-        //    }
-        //}
-        return null;
-    }
-
     public void OpenRestaurant()
     {
         isOpen = true;

@@ -22,3 +22,8 @@ MonoBehaviour:
   ItemType: 2
   ItemCost: 30
   ItemDelight: 5
+  ingredients:
+  - {fileID: 11400000, guid: c9a0476b5c90fee42bef0ae955941e4b, type: 2}
+  - {fileID: 11400000, guid: 1d1813a52017cae438102a1a6b9e5408, type: 2}
+  - {fileID: 11400000, guid: 4744f7d9bd9064544b128794d3c59bdc, type: 2}
+  ingredientsCount: 010000000100000001000000

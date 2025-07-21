@@ -9,6 +9,7 @@ public class RecipeManager : MonoBehaviour
 
     private JSONParser parser;
     public List<RecipeData> recipe;
+    public List<Item> items;
 
     public GameObject menuBoard;
     private GameObject recipeParent;
@@ -52,5 +53,19 @@ public class RecipeManager : MonoBehaviour
     public void RecipeHandler()
     {
 
+    }
+
+    public Item AddOrder()
+    {
+        int index = Random.Range(0, recipe.Count);
+
+        for (int i = 0; i < items.Count; i++)
+        {
+            if (recipe[index].RecipeID == items[i].item.ItemID)
+            {
+                return items[i];
+            }
+        }
+        return null;
     }
 }

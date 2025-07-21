@@ -41,6 +41,60 @@ TextureImporter:
   - first:
       213: -4924638730375952278
     second: Player_Girl_Side_12
+  - first:
+      213: -3320241721738996485
+    second: Player_Girl_Side_13
+  - first:
+      213: 7728265163496773339
+    second: Player_Girl_Side_14
+  - first:
+      213: -3906713070738346312
+    second: Player_Girl_Side_15
+  - first:
+      213: -2485092607805771249
+    second: Player_Girl_Side_16
+  - first:
+      213: 7348933729658605924
+    second: Player_Girl_Side_17
+  - first:
+      213: 1430521936395769151
+    second: Player_Girl_Side_18
+  - first:
+      213: 3029981727816522790
+    second: Player_Girl_Side_19
+  - first:
+      213: 3830515130272756080
+    second: Player_Girl_Side_20
+  - first:
+      213: -850935897242085670
+    second: Player_Girl_Side_21
+  - first:
+      213: 147343760203668280
+    second: Player_Girl_Side_22
+  - first:
+      213: -5777073684951646199
+    second: Player_Girl_Side_23
+  - first:
+      213: -4550767646162625130
+    second: Player_Girl_Side_24
+  - first:
+      213: 5692912928902348555
+    second: Player_Girl_Side_25
+  - first:
+      213: 2071386276264779057
+    second: Player_Girl_Side_26
+  - first:
+      213: -4211701055019819132
+    second: Player_Girl_Side_27
+  - first:
+      213: -2611747233227031637
+    second: Player_Girl_Side_28
+  - first:
+      213: 84088446478198544
+    second: Player_Girl_Side_29
+  - first:
+      213: 5575139840101540025
+    second: Player_Girl_Side_30
   externalObjects: {}
   serializedVersion: 13
   mipmaps:

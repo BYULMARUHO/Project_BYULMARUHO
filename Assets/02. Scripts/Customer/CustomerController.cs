@@ -120,7 +120,7 @@ public class CustomerController : MonoBehaviour
         isWaitFood = true;
 
         orderObject.SetActive(false);
-        orderMenu = RestaurantManager.Instance.AddOrder();
+        orderMenu = RecipeManager.Instance.AddOrder();
 
         yield return new WaitForSeconds(1.5f);
 
