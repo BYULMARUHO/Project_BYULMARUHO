@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using Utils.EnumTypes;
 
@@ -64,5 +65,27 @@ public class Inventory : MonoBehaviour
                 return;
             }
         }
+    }
+
+    // 아이템 사용
+    public void UseItem(ItemScriptableObject _item, int _count = 1)
+    {
+
+    }
+
+    // 특정 아이템 갯수 확인
+    public int ChechQuantityItem(int _item)
+    {
+        int _num = 0;
+
+        for(int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i].item != null && slots[i].item.ItemID == _item)
+            {
+                _num += slots[i].itemCount;
+            }
+        }
+
+        return _num;
     }
 }

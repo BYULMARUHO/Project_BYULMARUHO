@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -18,7 +20,7 @@ public class RecipeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private Image menuImage;
     private TextMeshProUGUI menuName;
 
-    private int totalMakeCount = 0;
+    private int totalMakeNum = 0;
 
     private void Start()
     {
@@ -37,6 +39,14 @@ public class RecipeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         Init();
     }
 
+    private void Update()
+    {
+        if (recipe == null)
+            return;
+
+        CheckQuantity();
+    }
+
     private void Init()
     {
         if (recipe == null)
@@ -44,21 +54,35 @@ public class RecipeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         recipe.isUnLock = true;
         recipeImage.sprite = recipe.item.ItemImage;
-        countText.text = totalMakeCount.ToString();
+        countText.text = totalMakeNum.ToString();
 
         if (recipe.isUnLock)
             lockImage.SetActive(false);
     }
 
-    private void TotalMakeCount()
-    {
-
-    }
-
     // 제조에 필요한 수량 확인
     private void CheckQuantity()
     {
+        int[] _nums = new int[recipe.item.ingredients.Length];
+        List<int> _makeNum = new List<int>(recipe.item.ingredients.Length);
 
+        for (int i = 0; i < recipe.item.ingredients.Length; i++)
+        {
+            _nums[i] = inventory.ChechQuantityItem(recipe.item.ingredients[i].ItemID);
+            _makeNum.Add(_nums[i] / recipe.item.ingredientsCount[i]);
+        }
+        totalMakeNum = _makeNum.Min();
+
+        if (totalMakeNum == 0)
+            makeLock.SetActive(true);
+        else
+            makeLock.SetActive(false);
+
+        countText.text = totalMakeNum.ToString();
+        //for (int i = 0; i < recipe.item.ingredients.Length; i++)
+        //{
+
+        //}
     }
 
     public void OnPointerEnter(PointerEventData eventData)
