@@ -9,13 +9,6 @@ namespace Utils.EnumTypes
         Left
     }
 
-    // 플레이어 상태
-    public enum PlayerState
-    {
-        Idle,  // 기본
-        Walk   // 걷기
-    }
-
     // 손님 상태
     public enum CustomerState
     {
@@ -44,5 +37,14 @@ namespace Utils.EnumTypes
         Equipment,   // 도구
         Ingredient,  // 식재료
         Food         // 음식
+    }
+
+    // 기구 타입
+    public enum MachineType
+    {
+        BeverageMachine,  // 음료 기계
+        GasStove,         // 가스 버너
+        FoodStand,        // 음식 거치대
+        Sink              // 싱크대
     }
 }

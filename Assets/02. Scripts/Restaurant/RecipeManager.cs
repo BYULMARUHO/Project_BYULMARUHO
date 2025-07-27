@@ -13,7 +13,10 @@ public class RecipeManager : MonoBehaviour
     public List<Item> items;
     private Inventory inventory;
 
+    public Image backImage;
+    public GameObject recipeBoard;
     public GameObject menuBoard;
+
     private GameObject recipeParent;
     private RecipeSlot[] recipeSlots;
     private GameObject menuParent;
@@ -36,15 +39,19 @@ public class RecipeManager : MonoBehaviour
     {
         parser = GameObject.Find("JSONParser").GetComponent<JSONParser>();
         recipe = parser.LoadRecipeDataFromJSON();
-
         inventory = GameObject.Find("Inventory").GetComponent<Inventory>();
-        menuBoard = transform.GetChild(0).gameObject;
-        recipeParent = menuBoard.transform.GetChild(0).gameObject;
-        recipeSlots = recipeParent.GetComponentsInChildren<RecipeSlot>();
-        menuParent = menuBoard.transform.GetChild(1).gameObject;
-        menuSlots = menuParent.GetComponentsInChildren<MenuSlot>();
 
-        menuSelectBoard = menuBoard.transform.GetChild(3).gameObject;
+        backImage = GetComponent<Image>();
+        menuBoard = transform.GetChild(0).gameObject;
+        recipeBoard = transform.GetChild(1).gameObject;
+
+
+        menuParent = menuBoard.transform.GetChild(1).GetChild(0).GetChild(0).gameObject;
+        menuSlots = menuParent.GetComponentsInChildren<MenuSlot>();
+        recipeParent = recipeBoard.transform.GetChild(1).GetChild(0).GetChild(0).gameObject;
+        recipeSlots = recipeParent.GetComponentsInChildren<RecipeSlot>();
+
+        menuSelectBoard = recipeBoard.transform.GetChild(2).gameObject;
         countSlider = menuSelectBoard.transform.GetChild(0).GetChild(1).GetComponent<Slider>();
         checkButton = menuSelectBoard.transform.GetChild(0).GetChild(2).GetComponent<Button>();
         cancleButton = menuSelectBoard.transform.GetChild(0).GetChild(3).GetComponent<Button>();
@@ -58,8 +65,13 @@ public class RecipeManager : MonoBehaviour
         {
             if (menuSelectBoard.activeSelf)
                 menuSelectBoard.SetActive(false);
-            else if (menuBoard.activeSelf)
+            else if (recipeBoard.activeSelf || menuBoard.activeSelf)
+            {
+                GameManager.Instance.isUIOpen = false;
+                backImage.enabled = false;
+                recipeBoard.SetActive(false);
                 menuBoard.SetActive(false);
+            }
         }
     }
 
@@ -87,7 +99,6 @@ public class RecipeManager : MonoBehaviour
     // 메뉴 등록
     public void MenuRegistration(Item _recipe, int _num)
     {
-        Debug.Log("::: 메뉴 등록 성공 :::");
         for(int i = 0; i < menuSlots.Length; i++)
         {
             if (menuSlots[i].isUnLook && menuSlots[i].recipe == null)

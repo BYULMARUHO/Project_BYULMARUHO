@@ -33,9 +33,15 @@ public class Inventory : MonoBehaviour
             inventoryActivated = !inventoryActivated;
 
             if (inventoryActivated)
+            {
+                GameManager.Instance.isUIOpen = true;
                 inventoryBase.SetActive(true);
+            }
             else
+            {
+                GameManager.Instance.isUIOpen = false;
                 inventoryBase.SetActive(false);
+            }
         }
     }
 

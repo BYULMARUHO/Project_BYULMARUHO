@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     private int experience = 0;
     private int maxExperience = 100;
 
+    public bool isUIOpen = false;
     private bool isGameOver = false;
 
     private void Awake()

@@ -20,6 +20,7 @@ public class MenuSlot : MonoBehaviour, IPointerClickHandler
     private float lastClickTime = 0;
     private int currentNum = 0;
     private int totalNum = 0;
+
     public bool isUnLook = false;
 
     private void Start()

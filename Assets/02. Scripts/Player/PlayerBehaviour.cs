@@ -1,11 +1,13 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Utils.EnumTypes;
 
 public class PlayerBehaviour : MonoBehaviour
 {
     private PlayerController playerController;
     private GameObject interactionObject;
+    private Slider cookingSlider;
     public TextMeshProUGUI interactionText;
 
     private GameObject servingFood;
@@ -49,7 +51,11 @@ public class PlayerBehaviour : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
+                    GameManager.Instance.isUIOpen = true;
+                    RecipeManager.Instance.backImage.enabled = true;
+                    RecipeManager.Instance.recipeBoard.SetActive(true);
                     RecipeManager.Instance.menuBoard.SetActive(true);
+                    RecipeManager.Instance.menuBoard.GetComponent<RectTransform>().localPosition = new Vector3(400, 0, 0);
                 }
             }
         }
@@ -81,20 +87,28 @@ public class PlayerBehaviour : MonoBehaviour
     // 요리하기
     public void OnCooking()
     {
-        if (playerController.isHolding)
+        if (playerController.isHolding || !RestaurantManager.Instance.isOpen)
             return;
 
         if (hit.collider != null)
         {
-            if (hit.collider.CompareTag("GasStove"))
-            {
-                interactionText.text = "요리하기";
-                interactionObject.SetActive(true);
+            MachineController _machine = hit.collider?.GetComponent<MachineController>();
 
-                if (Input.GetKeyDown(KeyCode.E))
+            if (_machine != null)
+            {
+                if(_machine.machineType == MachineType.GasStove || _machine.machineType == MachineType.BeverageMachine)
                 {
-                    playerController.isHolding = true;
-                    servingFood = Instantiate(hit.transform?.GetChild(0).gameObject, foodPos);
+                    interactionText.text = "요리하기";
+                    interactionObject.SetActive(true);
+
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        //playerController.isHolding = true;
+                        //servingFood = Instantiate(hit.transform?.GetChild(0).gameObject, foodPos);
+                        GameManager.Instance.isUIOpen = true;
+                        RecipeManager.Instance.menuBoard.SetActive(true);
+                        RecipeManager.Instance.menuBoard.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+                    }
                 }
             }
         }
@@ -127,7 +141,7 @@ public class PlayerBehaviour : MonoBehaviour
     // 방향 확인
     public void OnDirection()
     {
-        hit = Physics2D.Raycast(transform.position + new Vector3(0, 0.5f, 0), dir, 2f, (1 << 7) + (1 << 9) + (1 << 14));
+        hit = Physics2D.Raycast(transform.position + new Vector3(0, 0.5f, 0), dir, 2f, (1 << 7) + (1 << 9) + (1 << 12));
         Debug.DrawRay(transform.position + new Vector3(0, 0.5f, 0), dir * 2.0f, Color.red);
 
         if(hit.collider == null)

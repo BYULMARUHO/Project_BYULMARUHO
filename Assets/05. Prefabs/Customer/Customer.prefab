@@ -96,7 +96,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2787993089154006114}
-  m_Layer: 12
+  m_Layer: 30
   m_Name: Bubble
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 5841736663139129281}
   - component: {fileID: 8878787752264690135}
   - component: {fileID: 8693077829660959344}
-  m_Layer: 12
+  m_Layer: 30
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -271,7 +271,7 @@ GameObject:
   - component: {fileID: 7730389190827852708}
   - component: {fileID: 1176357929542829772}
   - component: {fileID: 3670207067229948283}
-  m_Layer: 12
+  m_Layer: 30
   m_Name: Coin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -496,7 +496,7 @@ GameObject:
   - component: {fileID: 3778950082718048670}
   - component: {fileID: 2117009724072819251}
   - component: {fileID: 1556276991733729745}
-  m_Layer: 12
+  m_Layer: 30
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -571,7 +571,7 @@ GameObject:
   - component: {fileID: 5667740009238802319}
   - component: {fileID: 2302084580643716234}
   - component: {fileID: 6388243674896386954}
-  m_Layer: 12
+  m_Layer: 30
   m_Name: Delight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -645,7 +645,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1658992635427444659}
-  m_Layer: 12
+  m_Layer: 30
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -683,7 +683,7 @@ GameObject:
   - component: {fileID: 255588584051902998}
   - component: {fileID: 2597653830321772177}
   - component: {fileID: 3382037188123400342}
-  m_Layer: 12
+  m_Layer: 30
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -820,7 +820,7 @@ GameObject:
   - component: {fileID: 9163857741360730590}
   - component: {fileID: 8225945772042898677}
   - component: {fileID: 6848260285555050924}
-  m_Layer: 12
+  m_Layer: 30
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -920,7 +920,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6002438809337888664}
-  m_Layer: 12
+  m_Layer: 30
   m_Name: Delight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -958,7 +958,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1810098654534425551}
   - component: {fileID: 752881249707317806}
-  m_Layer: 12
+  m_Layer: 30
   m_Name: SpeechBubbleSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1048,7 +1048,7 @@ GameObject:
   - component: {fileID: 8288940439792055156}
   - component: {fileID: 1583511954940871018}
   - component: {fileID: 122853977508975387}
-  m_Layer: 12
+  m_Layer: 30
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1123,7 +1123,7 @@ GameObject:
   - component: {fileID: 5546216751898197519}
   - component: {fileID: 7545264053946327967}
   - component: {fileID: 4322529573116408520}
-  m_Layer: 12
+  m_Layer: 30
   m_Name: MenuImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}

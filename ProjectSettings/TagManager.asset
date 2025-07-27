@@ -8,8 +8,8 @@ TagManager:
   - Staff
   - Door
   - Chair
-  - GasStove
   - MenuBoard
+  - Machine
   layers:
   - Default
   - TransparentFX
@@ -23,26 +23,26 @@ TagManager:
   - Objects
   - Chair
   - Door
+  - Machine
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
   - CustomerUIWorldSpace
   - PlayerUIWorldSpace
-  - GasStove
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
   m_SortingLayers:
   - name: Default
     uniqueID: 0
