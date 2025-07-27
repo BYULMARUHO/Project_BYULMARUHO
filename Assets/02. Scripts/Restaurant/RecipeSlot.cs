@@ -16,11 +16,13 @@ public class RecipeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private GameObject makeLock;
     private GameObject lockImage;
 
-    private GameObject menuSelectPhanel;
     private Image menuImage;
     private TextMeshProUGUI menuName;
+    private TextMeshProUGUI countNum;
+    private TextMeshProUGUI maxNum;
 
-    private int totalMakeNum = 0;
+    public int selectNum = 0;
+    public int totalMakeNum = 0;
 
     private void Start()
     {
@@ -28,13 +30,14 @@ public class RecipeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         recipeSlotToolTip = GameObject.Find("SlotToolTip").GetComponent<RecipeSlotToolTip>();
 
         recipeImage = transform.GetChild(0).GetComponent<Image>();
-        countText = transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
-        makeLock = transform.GetChild(0).GetChild(1).gameObject;
+        makeLock = transform.GetChild(0).GetChild(0).gameObject;
+        countText = transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
         lockImage = transform.GetChild(1).gameObject;
 
-        menuSelectPhanel = recipeSlotToolTip.transform.parent.GetChild(3).gameObject;
-        menuImage = menuSelectPhanel.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>();
-        menuName = menuSelectPhanel.transform.GetChild(0).GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
+        menuImage = RecipeManager.Instance.menuSelectBoard.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>();
+        menuName = RecipeManager.Instance.menuSelectBoard.transform.GetChild(0).GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
+        countNum = RecipeManager.Instance.countSlider.transform.GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        maxNum = RecipeManager.Instance.countSlider.transform.GetChild(5).GetComponent<TextMeshProUGUI>();
 
         Init();
     }
@@ -74,15 +77,24 @@ public class RecipeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         totalMakeNum = _makeNum.Min();
 
         if (totalMakeNum == 0)
+        {
+            countText.color = Color.white;
             makeLock.SetActive(true);
+        }
         else
+        {
+            countText.color = Color.black;
             makeLock.SetActive(false);
+        }
 
         countText.text = totalMakeNum.ToString();
-        //for (int i = 0; i < recipe.item.ingredients.Length; i++)
-        //{
+    }
 
-        //}
+    // 메뉴 수량 조절
+    public void MenuSelectHandler()
+    {
+        selectNum = (int)RecipeManager.Instance.countSlider.value;
+        countNum.text = string.Format("{0} / {1}", selectNum, totalMakeNum);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -103,11 +115,18 @@ public class RecipeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (recipe != null && recipe.isUnLock)
+        if (recipe != null && totalMakeNum != 0 && recipe.isUnLock)
         {
+            RecipeManager.Instance.countSlider.onValueChanged.AddListener(delegate { MenuSelectHandler(); });
+            RecipeManager.Instance.checkButton.onClick.AddListener(delegate { RecipeManager.Instance.MenuRegistration(recipe, selectNum); });
+
+            MenuSelectHandler();
             menuImage.sprite = recipe.item.ItemImage;
             menuName.text = recipe.item.ItemName;
-            menuSelectPhanel.SetActive(true);
+            maxNum.text = totalMakeNum.ToString();
+            RecipeManager.Instance.countSlider.maxValue = totalMakeNum;
+            RecipeManager.Instance.countSlider.value = 0;
+            RecipeManager.Instance.menuSelectBoard.SetActive(true);
         }
     }
 }

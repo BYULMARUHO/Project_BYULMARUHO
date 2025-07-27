@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEngine;
 using Utils.EnumTypes;
 
@@ -68,9 +67,16 @@ public class Inventory : MonoBehaviour
     }
 
     // 아이템 사용
-    public void UseItem(ItemScriptableObject _item, int _count = 1)
+    public void UseItem(int _itemID, int _count)
     {
-
+        for(int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i].item != null && slots[i].item.ItemID == _itemID)
+            {
+                slots[i].SetSlotCount(-_count);
+                return;
+            }
+        }
     }
 
     // 특정 아이템 갯수 확인
