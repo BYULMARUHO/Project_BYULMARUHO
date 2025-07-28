@@ -39,9 +39,18 @@ namespace Utils.EnumTypes
         Food         // 음식
     }
 
+    // 레시피 타입
+    public enum RecipeType
+    {
+        None,  // 레시피 아님
+        Meal,  // 음식
+        Drink  // 음료
+    }
+
     // 기구 타입
     public enum MachineType
     {
+        None,
         BeverageMachine,  // 음료 기계
         GasStove,         // 가스 버너
         FoodStand,        // 음식 거치대

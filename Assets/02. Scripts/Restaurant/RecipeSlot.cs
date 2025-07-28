@@ -21,6 +21,8 @@ public class RecipeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private TextMeshProUGUI countNum;
     private TextMeshProUGUI maxNum;
 
+    private Outline outLine;
+
     public int selectNum = 0;
     public int totalMakeNum = 0;
 
@@ -38,6 +40,7 @@ public class RecipeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         menuName = RecipeManager.Instance.menuSelectBoard.transform.GetChild(0).GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
         countNum = RecipeManager.Instance.countSlider.transform.GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
         maxNum = RecipeManager.Instance.countSlider.transform.GetChild(5).GetComponent<TextMeshProUGUI>();
+        outLine = GetComponent<Outline>();
 
         Init();
     }
@@ -101,6 +104,9 @@ public class RecipeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         if (recipe != null && recipe.isUnLock)
         {
+            if (totalMakeNum != 0)
+                outLine.enabled = true;
+
             recipeSlotToolTip.ShowToolTip(recipe, transform.position);
         }
     }
@@ -109,6 +115,7 @@ public class RecipeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         if (recipe != null && recipe.isUnLock)
         {
+            outLine.enabled = false;
             recipeSlotToolTip.HideToolTip();
         }
     }

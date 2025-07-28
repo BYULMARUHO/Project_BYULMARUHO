@@ -68,10 +68,15 @@ public class RecipeManager : MonoBehaviour
             else if (recipeBoard.activeSelf || menuBoard.activeSelf)
             {
                 GameManager.Instance.isUIOpen = false;
+                RestaurantManager.Instance.isCooking = false;
                 backImage.enabled = false;
                 recipeBoard.SetActive(false);
                 menuBoard.SetActive(false);
             }
+        }
+        else if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+
         }
     }
 
@@ -118,7 +123,7 @@ public class RecipeManager : MonoBehaviour
             {
                 if(menuSlots[i].recipe.item.ItemID == _recipe.item.ItemID)
                 {
-                    menuSlots[i].SetMenuSlot(_num);
+                    menuSlots[i].SetMenuSlot(_num, _num);
                     menuSelectBoard.SetActive(false);
 
                     for (int j = 0; j < _recipe.item.ingredients.Length; j++)

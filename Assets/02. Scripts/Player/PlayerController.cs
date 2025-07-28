@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.Instance.isUIOpen)
+        if (GameManager.Instance.isUIOpen || RestaurantManager.Instance.isCooking)
             return;
 
         Move();

@@ -20,8 +20,10 @@ MonoBehaviour:
     \uC2DC\uB7FD\uC774\uB098 \uACFC\uC77C\uC744 \uACC1\uB4E4\uC774\uBA74 \uB354 \uB9DB\uC788\uB294
     \uC2DD\uC0AC\uAC00 \uB41C\uB2E4."
   ItemType: 2
+  RecipeType: 2
   ItemCost: 30
   ItemDelight: 5
+  CookTime: 4
   ingredients:
   - {fileID: 11400000, guid: c9a0476b5c90fee42bef0ae955941e4b, type: 2}
   - {fileID: 11400000, guid: 1d1813a52017cae438102a1a6b9e5408, type: 2}

@@ -10,6 +10,7 @@ public class RestaurantManager : MonoBehaviour
     private float currentTime = 120.0f;
     private float openHours = 120.0f;
 
+    public bool isCooking = false;
     public bool isOpen = false;
 
     private void Awake()

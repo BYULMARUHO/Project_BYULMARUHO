@@ -7,13 +7,11 @@ public class PlayerBehaviour : MonoBehaviour
 {
     private PlayerController playerController;
     private GameObject interactionObject;
-    private Slider cookingSlider;
     public TextMeshProUGUI interactionText;
 
     private GameObject servingFood;
-    private Transform foodPos;
 
-    private RaycastHit2D hit;
+    public RaycastHit2D hit;
     public Vector2 dir;
 
     private void Start()
@@ -21,11 +19,16 @@ public class PlayerBehaviour : MonoBehaviour
         playerController = GetComponent<PlayerController>();
         interactionObject = transform.GetChild(3).GetChild(0).gameObject;
         interactionText = interactionObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-        foodPos = transform.GetChild(4).transform;
     }
 
     private void Update()
     {
+        if (RestaurantManager.Instance.isCooking)
+        {
+            interactionObject.SetActive(false);
+            return;
+        }
+
         if (playerController.moveDir != Vector2.zero)
             dir = playerController.moveDir;
 
@@ -33,6 +36,7 @@ public class PlayerBehaviour : MonoBehaviour
         OnMenuSetting();
         OnTakeOrder();
         OnCooking();
+        OnFoodStand();
         OnServeing();
     }
 
@@ -46,8 +50,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if (hit.collider.CompareTag("MenuBoard"))
             {
-                interactionText.text = "메뉴설정";
-                interactionObject.SetActive(true);
+                InteractionHandler("메뉴설정");
 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
@@ -72,8 +75,7 @@ public class PlayerBehaviour : MonoBehaviour
             CustomerController _customer = hit.collider?.GetComponent<CustomerController>();
             if(_customer != null && _customer.isWaitOrder)
             {
-                interactionText.text = "주문받기";
-                interactionObject.SetActive(true);
+                InteractionHandler("주문받기");
 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
@@ -98,16 +100,39 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 if(_machine.machineType == MachineType.GasStove || _machine.machineType == MachineType.BeverageMachine)
                 {
-                    interactionText.text = "요리하기";
-                    interactionObject.SetActive(true);
+                    InteractionHandler("요리하기");
 
                     if (Input.GetKeyDown(KeyCode.E))
                     {
-                        //playerController.isHolding = true;
-                        //servingFood = Instantiate(hit.transform?.GetChild(0).gameObject, foodPos);
                         GameManager.Instance.isUIOpen = true;
+                        RestaurantManager.Instance.isCooking = true;
                         RecipeManager.Instance.menuBoard.SetActive(true);
                         RecipeManager.Instance.menuBoard.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+                    }
+                }
+            }
+        }
+    }
+
+    // 음식 거치하기
+    public void OnFoodStand()
+    {
+        if (!playerController.isHolding)
+            return;
+
+        if(hit.collider != null)
+        {
+            MachineController _machine = hit.collider?.GetComponent<MachineController>();
+
+            if (_machine != null)
+            {
+                if(_machine.machineType == MachineType.FoodStand)
+                {
+                    InteractionHandler("거치하기");
+
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+
                     }
                 }
             }
@@ -124,8 +149,7 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 if (_customer.orderMenu.item.ItemID == servingFood.GetComponent<Item>().item.ItemID)
                 {
-                    interactionText.text = "서빙하기";
-                    interactionObject.SetActive(true);
+                    InteractionHandler("서빙하기");
 
                     if (Input.GetKeyDown(KeyCode.E))
                     {
@@ -136,6 +160,13 @@ public class PlayerBehaviour : MonoBehaviour
                 }
             }
         }
+    }
+
+    // 상호작용 텍스트 변경
+    public void InteractionHandler(string _text)
+    {
+        interactionText.text = _text;
+        interactionObject.SetActive(true);
     }
 
     // 방향 확인
