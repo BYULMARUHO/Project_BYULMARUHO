@@ -1,97 +1,16 @@
 fileFormatVersion: 2
-guid: 3cab74f3ecfa3684d8f9d1604c3a66da
+guid: bcc195f144bee4e42ad77517e63adc5b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3651161475071678862
-    second: Player_Girl_Side_0
+      213: -526404905223902291
+    second: Player_Girl_Side_2_0
   - first:
-      213: 2270993498301866321
-    second: Player_Girl_Side_1
+      213: -5881942982664088443
+    second: Player_Girl_Side_2_1
   - first:
-      213: -5522390302575763418
-    second: Player_Girl_Side_2
-  - first:
-      213: 6271964436267040170
-    second: Player_Girl_Side_3
-  - first:
-      213: -6307884775387995534
-    second: Player_Girl_Side_4
-  - first:
-      213: -8238164513111934633
-    second: Player_Girl_Side_5
-  - first:
-      213: -6357230948972438297
-    second: Player_Girl_Side_6
-  - first:
-      213: 7845623499352460933
-    second: Player_Girl_Side_7
-  - first:
-      213: -8049124311815979137
-    second: Player_Girl_Side_8
-  - first:
-      213: -8661320955618016575
-    second: Player_Girl_Side_9
-  - first:
-      213: -2081636543323234484
-    second: Player_Girl_Side_10
-  - first:
-      213: -509582698092382511
-    second: Player_Girl_Side_11
-  - first:
-      213: -4924638730375952278
-    second: Player_Girl_Side_12
-  - first:
-      213: -3320241721738996485
-    second: Player_Girl_Side_13
-  - first:
-      213: 7728265163496773339
-    second: Player_Girl_Side_14
-  - first:
-      213: -3906713070738346312
-    second: Player_Girl_Side_15
-  - first:
-      213: -2485092607805771249
-    second: Player_Girl_Side_16
-  - first:
-      213: 7348933729658605924
-    second: Player_Girl_Side_17
-  - first:
-      213: 1430521936395769151
-    second: Player_Girl_Side_18
-  - first:
-      213: 3029981727816522790
-    second: Player_Girl_Side_19
-  - first:
-      213: 3830515130272756080
-    second: Player_Girl_Side_20
-  - first:
-      213: -850935897242085670
-    second: Player_Girl_Side_21
-  - first:
-      213: 147343760203668280
-    second: Player_Girl_Side_22
-  - first:
-      213: -5777073684951646199
-    second: Player_Girl_Side_23
-  - first:
-      213: -4550767646162625130
-    second: Player_Girl_Side_24
-  - first:
-      213: 5692912928902348555
-    second: Player_Girl_Side_25
-  - first:
-      213: 2071386276264779057
-    second: Player_Girl_Side_26
-  - first:
-      213: -4211701055019819132
-    second: Player_Girl_Side_27
-  - first:
-      213: -2611747233227031637
-    second: Player_Girl_Side_28
-  - first:
-      213: 84088446478198544
-    second: Player_Girl_Side_29
+      213: -3213558584032921172
+    second: Player_Girl_Side_2_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:

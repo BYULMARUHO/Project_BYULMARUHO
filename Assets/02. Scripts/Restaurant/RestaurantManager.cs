@@ -1,6 +1,4 @@
 using UnityEngine;
-using Utils.ClassUtility;
-using System.Collections.Generic;
 
 public class RestaurantManager : MonoBehaviour
 {

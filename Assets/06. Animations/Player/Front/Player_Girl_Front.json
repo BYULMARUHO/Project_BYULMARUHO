@@ -1,11 +1,11 @@
 {
 "skeleton": {
-	"hash": "yZJ7ygiwWEU",
+	"hash": "CeJNMZirMmM",
 	"spine": "4.2.43",
-	"x": -356.64,
+	"x": -356.71,
 	"y": -1.25,
-	"width": 717,
-	"height": 840,
+	"width": 717.12,
+	"height": 839.56,
 	"images": "../Team_BYULMARUHO/Player_Girl/images_Front/",
 	"audio": "./audio"
 },
@@ -187,9 +187,9 @@
 		"rotation": -132.59,
 		"x": -9.84,
 		"y": -2.65,
-		"color": "0088ff9b"
+		"color": "0088ff9a"
 	},
-	{ "name": "Arm_L_Carry2", "parent": "Arm_L_Carry1", "length": 116, "rotation": 18.19, "x": 82.46, "color": "0088ff9b" },
+	{ "name": "Arm_L_Carry2", "parent": "Arm_L_Carry1", "length": 116, "rotation": 18.19, "x": 82.46, "color": "0088ff9a" },
 	{
 		"name": "Arm_L_Carry_IK",
 		"parent": "Arm_L1",
@@ -206,9 +206,9 @@
 		"rotation": -54.35,
 		"x": 6.99,
 		"y": 3.9,
-		"color": "0088ff9b"
+		"color": "0088ff9a"
 	},
-	{ "name": "Arm_R_Carry2", "parent": "Arm_R_Carry1", "length": 103.8, "rotation": -10.29, "x": 92.96, "color": "0088ff9b" },
+	{ "name": "Arm_R_Carry2", "parent": "Arm_R_Carry1", "length": 103.8, "rotation": -10.29, "x": 92.96, "color": "0088ff9a" },
 	{
 		"name": "Arm_R_Carry_IK",
 		"parent": "Arm_R1",
@@ -265,7 +265,9 @@
 	{ "name": "빗자루_소매_우", "bone": "root" },
 	{ "name": "빗자루_소매_좌", "bone": "root" },
 	{ "name": "FoodSlot", "bone": "FoodSlot" },
-	{ "name": "카페라떼", "bone": "root", "visible": false }
+	{ "name": "오렌지치킨", "bone": "FoodSlot" },
+	{ "name": "카페라떼", "bone": "FoodSlot" },
+	{ "name": "팬케이크", "bone": "FoodSlot" }
 ],
 "ik": [
 	{
@@ -695,18 +697,6 @@
 					"height": 118
 				}
 			},
-			"카페라떼": {
-				"카페라떼": {
-					"type": "mesh",
-					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
-					"triangles": [ 1, 2, 3, 1, 3, 0 ],
-					"vertices": [ 1, 48, 126.57, -63.83, 1, 1, 48, -135.43, -63.83, 1, 1, 48, -135.43, 140.17, 1, 1, 48, 126.57, 140.17, 1 ],
-					"hull": 4,
-					"edges": [ 0, 2, 2, 4, 4, 6, 0, 6 ],
-					"width": 262,
-					"height": 204
-				}
-			},
 			"팔_우": {
 				"C_팔_우": {
 					"type": "mesh",
@@ -792,6 +782,61 @@
 				}
 			}
 		}
+	},
+	{ "name": "base" },
+	{
+		"name": "오렌지치킨",
+		"attachments": {
+			"오렌지치킨": {
+				"오렌지치킨": {
+					"name": "FoodSkin/오렌지치킨",
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 1, 48, 121.32, -97.94, 1, 1, 48, -121.68, -97.94, 1, 1, 48, -121.68, 76.06, 1, 1, 48, 121.32, 76.06, 1 ],
+					"hull": 4,
+					"edges": [ 0, 2, 2, 4, 4, 6, 0, 6 ],
+					"width": 243,
+					"height": 174
+				}
+			}
+		}
+	},
+	{
+		"name": "카페라떼",
+		"attachments": {
+			"카페라떼": {
+				"카페라떼": {
+					"name": "FoodSkin/카페라떼",
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 1, 48, 140.32, -87, 1, 1, 48, -121.68, -87, 1, 1, 48, -121.68, 117, 1, 1, 48, 140.32, 117, 1 ],
+					"hull": 4,
+					"edges": [ 0, 2, 2, 4, 4, 6, 0, 6 ],
+					"width": 262,
+					"height": 204
+				}
+			}
+		}
+	},
+	{
+		"name": "팬케이크",
+		"attachments": {
+			"팬케이크": {
+				"팬케이크": {
+					"name": "FoodSkin/팬케이크",
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 1, 48, 140.32, -77, 1, 1, 48, -121.68, -77, 1, 1, 48, -121.68, 107, 1, 1, 48, 140.32, 107, 1 ],
+					"hull": 4,
+					"edges": [ 0, 2, 2, 4, 4, 6, 0, 6 ],
+					"width": 262,
+					"height": 184
+				}
+			}
+		}
 	}
 ],
 "animations": {
@@ -837,6 +882,16 @@
 					{ "name": "C_소매_좌" }
 				]
 			},
+			"오렌지치킨": {
+				"attachment": [
+					{ "name": "오렌지치킨" }
+				]
+			},
+			"카페라떼": {
+				"attachment": [
+					{ "name": "카페라떼" }
+				]
+			},
 			"팔_우": {
 				"attachment": [
 					{ "name": "C_팔_우" }
@@ -845,6 +900,11 @@
 			"팔_좌": {
 				"attachment": [
 					{ "name": "C_팔_좌" }
+				]
+			},
+			"팬케이크": {
+				"attachment": [
+					{ "name": "팬케이크" }
 				]
 			}
 		},
@@ -1100,6 +1160,16 @@
 					{ "name": "C_소매_좌" }
 				]
 			},
+			"오렌지치킨": {
+				"attachment": [
+					{ "name": "오렌지치킨" }
+				]
+			},
+			"카페라떼": {
+				"attachment": [
+					{ "name": "카페라떼" }
+				]
+			},
 			"팔_우": {
 				"attachment": [
 					{ "name": "C_팔_우" }
@@ -1108,6 +1178,11 @@
 			"팔_좌": {
 				"attachment": [
 					{ "name": "C_팔_좌" }
+				]
+			},
+			"팬케이크": {
+				"attachment": [
+					{ "name": "팬케이크" }
 				]
 			}
 		},
@@ -1258,6 +1333,28 @@
 					{ "time": 0.3333 },
 					{ "time": 0.5, "x": 0.9, "y": 0.9 },
 					{ "time": 0.6667 }
+				]
+			}
+		}
+	},
+	"Cook": {
+		"bones": {
+			"Pelvis_Main": {
+				"translate": [
+					{},
+					{ "time": 0.5, "y": 100 },
+					{ "time": 1 }
+				]
+			}
+		}
+	},
+	"Gathering": {
+		"bones": {
+			"Pelvis_Main": {
+				"translate": [
+					{},
+					{ "time": 0.5, "y": 100 },
+					{ "time": 1 }
 				]
 			}
 		}
@@ -1521,6 +1618,17 @@
 			}
 		}
 	},
+	"Interraction": {
+		"bones": {
+			"Pelvis_Main": {
+				"translate": [
+					{},
+					{ "time": 0.5, "y": 100 },
+					{ "time": 1 }
+				]
+			}
+		}
+	},
 	"Mopping": {
 		"slots": {
 			"F_소매_우": {
@@ -1761,6 +1869,17 @@
 			]
 		}
 	},
+	"Pour": {
+		"bones": {
+			"Pelvis_Main": {
+				"translate": [
+					{},
+					{ "time": 0.5, "y": 100 },
+					{ "time": 1 }
+				]
+			}
+		}
+	},
 	"Pushing": {
 		"slots": {
 			"F_소매_우": {
@@ -1992,6 +2111,253 @@
 						"curve": [ 0.667, 0, 0.833, 57.71, 0.667, 0, 0.833, 60.83 ]
 					},
 					{ "time": 1, "x": 57.71, "y": 60.83 }
+				]
+			}
+		}
+	},
+	"Swing": {
+		"bones": {
+			"Pelvis_Main": {
+				"translate": [
+					{},
+					{ "time": 0.5, "y": 100 },
+					{ "time": 1 }
+				]
+			}
+		}
+	},
+	"temp": {
+		"slots": {
+			"FoodSlot": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"F_눈_우": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"F_눈_좌": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"F_다리_우": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"F_다리_좌": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"F_머리": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"F_소매_우": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"F_소매_좌": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"F_앞머리": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"F_얼굴": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"F_옷": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"F_입": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"F_치마_우": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"F_치마_일반": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"F_치마_좌": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"F_팔_우": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"F_팔_좌": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"반짝이1": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"반짝이2": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"반짝이3": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"빗자루": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"빗자루_소매_우": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"빗자루_소매_좌": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"빗자루_팔_우": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"빗자루_팔_좌": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"소매_우": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"소매_좌": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"청소연기_우": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"청소연기_좌": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"팔_우": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"팔_좌": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"행주": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"행주_소매_우": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"행주_소매_좌": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"행주_팔_우": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"행주_팔_좌": {
+				"rgba": [
+					{ "time": 1.3333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"Pelvis_Main": {
+				"rotate": [
+					{},
+					{ "time": 2, "value": 720 }
+				],
+				"translate": [
+					{},
+					{ "time": 2, "x": -619.88, "y": 452.34 }
+				],
+				"scale": [
+					{},
+					{ "time": 2, "x": 0.3, "y": 0.3 }
 				]
 			}
 		}
@@ -2260,6 +2626,17 @@
 					{ "time": 0.3333 },
 					{ "time": 0.5, "x": 0.9, "y": 0.9 },
 					{ "time": 0.6667 }
+				]
+			}
+		}
+	},
+	"Washing": {
+		"bones": {
+			"Pelvis_Main": {
+				"translate": [
+					{},
+					{ "time": 0.5, "y": 100 },
+					{ "time": 1 }
 				]
 			}
 		}

@@ -1,6 +1,6 @@
 {
 "skeleton": {
-	"hash": "25rwW2MAgLo",
+	"hash": "eKsRc1Wah3E",
 	"spine": "4.2.43",
 	"x": -358.48,
 	"y": -2.45,
@@ -196,7 +196,7 @@
 ],
 "slots": [
 	{ "name": "FoodSlot", "bone": "FoodSlot" },
-	{ "name": "카페라떼", "bone": "root" },
+	{ "name": "카페라떼", "bone": "root", "attachment": "카페라떼" },
 	{ "name": "청소연기_우", "bone": "root" },
 	{ "name": "청소연기_좌", "bone": "root" },
 	{ "name": "빗자루_팔_좌", "bone": "root" },
@@ -736,6 +736,11 @@
 					{}
 				]
 			},
+			"카페라떼": {
+				"attachment": [
+					{ "name": "카페라떼" }
+				]
+			},
 			"팔_우": {
 				"attachment": [
 					{}
@@ -1241,6 +1246,28 @@
 			}
 		}
 	},
+	"Cook": {
+		"bones": {
+			"Pelvis_Main": {
+				"translate": [
+					{},
+					{ "time": 0.5, "y": 90 },
+					{ "time": 1 }
+				]
+			}
+		}
+	},
+	"Gathering": {
+		"bones": {
+			"Pelvis_Main": {
+				"translate": [
+					{},
+					{ "time": 0.5, "y": 90 },
+					{ "time": 1 }
+				]
+			}
+		}
+	},
 	"Idle": {
 		"bones": {
 			"Mesh_Conrtoller": {
@@ -1475,6 +1502,17 @@
 			}
 		}
 	},
+	"Interaction": {
+		"bones": {
+			"Pelvis_Main": {
+				"translate": [
+					{},
+					{ "time": 0.5, "y": 90 },
+					{ "time": 1 }
+				]
+			}
+		}
+	},
 	"Mopping": {
 		"slots": {
 			"반짝이1": {
@@ -1625,6 +1663,17 @@
 			}
 		]
 	},
+	"Pour": {
+		"bones": {
+			"Pelvis_Main": {
+				"translate": [
+					{},
+					{ "time": 0.5, "y": 90 },
+					{ "time": 1 }
+				]
+			}
+		}
+	},
 	"Pushing": {
 		"slots": {
 			"빗자루": {
@@ -1761,6 +1810,17 @@
 					{ "time": 0.2, "x": -54.26, "y": 9.12 },
 					{ "time": 0.5 },
 					{ "time": 0.8, "x": 13.52, "y": -3.81 },
+					{ "time": 1 }
+				]
+			}
+		}
+	},
+	"Swing": {
+		"bones": {
+			"Pelvis_Main": {
+				"translate": [
+					{},
+					{ "time": 0.5, "y": 90 },
 					{ "time": 1 }
 				]
 			}
@@ -2034,6 +2094,17 @@
 					},
 					{ "time": 0.3333, "curve": "stepped" },
 					{ "time": 0.6667 }
+				]
+			}
+		}
+	},
+	"Washing": {
+		"bones": {
+			"Pelvis_Main": {
+				"translate": [
+					{},
+					{ "time": 0.5, "y": 90 },
+					{ "time": 1 }
 				]
 			}
 		}
