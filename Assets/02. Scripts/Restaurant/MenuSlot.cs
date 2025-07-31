@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class MenuSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
@@ -44,8 +45,30 @@ public class MenuSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         outLine = GetComponent<Outline>();
     }
 
+    public void DisableInit()
+    {
+        recipe = null;
+        nullBaseText.SetActive(true);
+        menuPhanel.SetActive(false);
+        menuPhanelImage.color = Color.black;
+        lastClickTime = -1;
+    }
+
+    public void EnableInit()
+    {
+        nullBaseText.SetActive(false);
+        menuPhanel.SetActive(true);
+
+        Color color;
+        ColorUtility.TryParseHtmlString("#989898", out color);
+        menuPhanelImage.color = color;
+
+        menuImage.sprite = recipe.item.ItemImage;
+        menuName.text = recipe.item.ItemName;
+    }
+
     // 새로운 메뉴 슬롯 생성
-    public void AddMenuSlot(Item _item, int _num)
+    public void AddMenuSlot(Item _item, int _currentNum, int _totalNum)
     {
         nullBaseText.SetActive(false);
         menuPhanel.SetActive(true);
@@ -57,8 +80,8 @@ public class MenuSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         recipe = _item;
         menuImage.sprite = recipe.item.ItemImage;
         menuName.text = recipe.item.ItemName;
-        currentNum = _num;
-        totalNum = _num;
+        currentNum = _currentNum;
+        totalNum = _totalNum;
         menuCount.text = string.Format("{0} / {1}", currentNum, totalNum);
     }
 
@@ -90,13 +113,7 @@ public class MenuSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             if(recipe != null && !RestaurantManager.Instance.isCooking)
             {
                 UseIngredient(currentNum);
-
-                recipe = null;
-                nullBaseText.SetActive(true);
-                menuPhanel.SetActive(false);
-                menuPhanelImage.color = Color.black;
-                lastClickTime = -1;
-
+                DisableInit();
                 SetMenuSlot(-currentNum, 0);
             }
             else if(recipe != null && RestaurantManager.Instance.isCooking && !isSoldOut)

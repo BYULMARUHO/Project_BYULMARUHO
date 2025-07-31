@@ -1,7 +1,9 @@
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils.ClassUtility;
+using Utils.EnumTypes;
+using System.Collections.Generic;
 
 public class RecipeManager : MonoBehaviour
 {
@@ -13,14 +15,17 @@ public class RecipeManager : MonoBehaviour
     public List<Item> items;
     private Inventory inventory;
 
+    private List<MenuSlot> menuList;
     public Image backImage;
-    public GameObject recipeBoard;
-    public GameObject menuBoard;
 
+    public GameObject recipeBoard;
     private GameObject recipeParent;
     private RecipeSlot[] recipeSlots;
+
+    public GameObject menuBoard;
     private GameObject menuParent;
     private MenuSlot[] menuSlots;
+    private TextMeshProUGUI menuBoardTitle;
 
     public GameObject menuSelectBoard;
     public Slider countSlider;
@@ -45,11 +50,12 @@ public class RecipeManager : MonoBehaviour
         menuBoard = transform.GetChild(0).gameObject;
         recipeBoard = transform.GetChild(1).gameObject;
 
+        recipeParent = recipeBoard.transform.GetChild(1).GetChild(0).GetChild(0).gameObject;
+        recipeSlots = recipeParent.GetComponentsInChildren<RecipeSlot>();
 
         menuParent = menuBoard.transform.GetChild(1).GetChild(0).GetChild(0).gameObject;
         menuSlots = menuParent.GetComponentsInChildren<MenuSlot>();
-        recipeParent = recipeBoard.transform.GetChild(1).GetChild(0).GetChild(0).gameObject;
-        recipeSlots = recipeParent.GetComponentsInChildren<RecipeSlot>();
+        menuBoardTitle = menuBoard.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
         menuSelectBoard = recipeBoard.transform.GetChild(2).gameObject;
         countSlider = menuSelectBoard.transform.GetChild(0).GetChild(1).GetComponent<Slider>();
@@ -90,12 +96,11 @@ public class RecipeManager : MonoBehaviour
                 menuSlots[i].isUnLook = false;
         }
 
-        cancleButton.onClick.AddListener(delegate { MenuBoardHandler(); });
+        cancleButton.onClick.AddListener(delegate { MenuBoardInit(); });
         cancleButton.onClick.AddListener(delegate { menuSelectBoard.SetActive(false); });
     }
 
-    // 메뉴 보드 관리
-    public void MenuBoardHandler()
+    public void MenuBoardInit()
     {
         countSlider.onValueChanged.RemoveAllListeners();
         checkButton.onClick.RemoveAllListeners();
@@ -104,24 +109,12 @@ public class RecipeManager : MonoBehaviour
     // 메뉴 등록
     public void MenuRegistration(Item _recipe, int _num)
     {
+        // 해당 메뉴가 이미 등재되어 있을 경우
         for(int i = 0; i < menuSlots.Length; i++)
         {
-            if (menuSlots[i].isUnLook && menuSlots[i].recipe == null)
+            if (menuSlots[i].isUnLook && menuSlots[i].recipe != null)
             {
-                menuSlots[i].AddMenuSlot(_recipe, _num);
-                menuSelectBoard.SetActive(false);
-
-                for(int j = 0; j < _recipe.item.ingredients.Length; j++)
-                {
-                    inventory.UseItem(_recipe.item.ingredients[j].ItemID, _recipe.item.ingredientsCount[j] * _num);
-                }
-
-                MenuBoardHandler();
-                return;
-            }
-            else if(menuSlots[i].isUnLook && menuSlots[i].recipe != null)
-            {
-                if(menuSlots[i].recipe.item.ItemID == _recipe.item.ItemID)
+                if (menuSlots[i].recipe.item.ItemID == _recipe.item.ItemID)
                 {
                     menuSlots[i].SetMenuSlot(_num, _num);
                     menuSelectBoard.SetActive(false);
@@ -131,10 +124,64 @@ public class RecipeManager : MonoBehaviour
                         inventory.UseItem(_recipe.item.ingredients[j].ItemID, _recipe.item.ingredientsCount[j] * _num);
                     }
 
-                    MenuBoardHandler();
+                    menuList[i] = menuSlots[i];
+                    MenuBoardInit();
                     return;
                 }
             }
+        }
+
+        // 새로운 판매 메뉴 추가
+        for(int i = 0; i <= menuSlots.Length; i++)
+        {
+            if (menuSlots[i].isUnLook && menuSlots[i].recipe == null)
+            {
+                menuSlots[i].AddMenuSlot(_recipe, _num, _num);
+                menuSelectBoard.SetActive(false);
+
+                for (int j = 0; j < _recipe.item.ingredients.Length; j++)
+                {
+                    inventory.UseItem(_recipe.item.ingredients[j].ItemID, _recipe.item.ingredientsCount[j] * _num);
+                }
+
+                menuList.Add(menuSlots[i]);
+                MenuBoardInit();
+                return;
+            }
+        }
+    }
+
+    // 메뉴판 관리
+    public void MenuBoardHandler(MachineType _machineType, float _pos)
+    {
+        menuBoardTitle.text = (_machineType == MachineType.None) ? "메뉴판" : ((_machineType == MachineType.GasStove) ? "가스 버너" : "음료 제작대");
+        menuBoard.GetComponent<RectTransform>().localPosition = new Vector3(_pos, 0, 0);
+        menuBoard.SetActive(true);
+
+        if(_machineType == MachineType.None)
+        {
+
+        }
+        else if(_machineType == MachineType.GasStove)
+        {
+            for (int i = 0; i < menuSlots.Length; i++)
+                menuSlots[i].DisableInit();
+
+            for(int i = 0; i <  menuSlots.Length; i++)
+            {
+                if (menuList[i] != null)
+                {
+                    if(menuList[i].recipe.item.RecipeType == MachineType.GasStove)
+                    {
+
+                    }
+                }
+            }
+
+        }
+        else if(_machineType == MachineType.BeverageMachine)
+        {
+
         }
     }
 

@@ -57,8 +57,7 @@ public class PlayerBehaviour : MonoBehaviour
                     GameManager.Instance.isUIOpen = true;
                     RecipeManager.Instance.backImage.enabled = true;
                     RecipeManager.Instance.recipeBoard.SetActive(true);
-                    RecipeManager.Instance.menuBoard.SetActive(true);
-                    RecipeManager.Instance.menuBoard.GetComponent<RectTransform>().localPosition = new Vector3(400, 0, 0);
+                    RecipeManager.Instance.MenuBoardHandler(MachineType.None, 400.0f);
                 }
             }
         }
@@ -106,8 +105,7 @@ public class PlayerBehaviour : MonoBehaviour
                     {
                         GameManager.Instance.isUIOpen = true;
                         RestaurantManager.Instance.isCooking = true;
-                        RecipeManager.Instance.menuBoard.SetActive(true);
-                        RecipeManager.Instance.menuBoard.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+                        RecipeManager.Instance.MenuBoardHandler(_machine.machineType, 0.0f);
                     }
                 }
             }
