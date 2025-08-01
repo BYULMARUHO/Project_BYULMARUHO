@@ -19,17 +19,17 @@ public class MenuSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     private TextMeshProUGUI menuName;
     private TextMeshProUGUI menuCount;
 
-    private GameObject soldOut;
+    public GameObject soldOut;
     private Outline outLine;
 
     private float lastClickTime = 0;
-    private int currentNum = 0;
-    private int totalNum = 0;
+    public int currentNum = 0;
+    public int totalNum = 0;
 
     private bool isSoldOut = false;
     public bool isUnLook = false;
 
-    private void Start()
+    private void Awake()
     {
         inventory = GameObject.Find("Inventory").GetComponent<Inventory>();
         menuPhanel = transform.GetChild(0).gameObject;
@@ -52,19 +52,6 @@ public class MenuSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         menuPhanel.SetActive(false);
         menuPhanelImage.color = Color.black;
         lastClickTime = -1;
-    }
-
-    public void EnableInit()
-    {
-        nullBaseText.SetActive(false);
-        menuPhanel.SetActive(true);
-
-        Color color;
-        ColorUtility.TryParseHtmlString("#989898", out color);
-        menuPhanelImage.color = color;
-
-        menuImage.sprite = recipe.item.ItemImage;
-        menuName.text = recipe.item.ItemName;
     }
 
     // 새로운 메뉴 슬롯 생성
@@ -128,8 +115,10 @@ public class MenuSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
                     {
                         Debug.Log("해당 메뉴 조리 시작");
                         SetMenuSlot(-1, 0);
+                        RecipeManager.Instance.RecipeCompare(recipe)?.SetMenuSlot(-1, 0);
+                        RecipeManager.Instance.CookBoardInit();
                         GameManager.Instance.isUIOpen = false;
-                        RecipeManager.Instance.menuBoard.SetActive(false);
+                        RecipeManager.Instance.cookBoard.SetActive(false);
                         GameObject.Find("Player").GetComponent<PlayerCooking>().CookMenuSelect(recipe);
                     }
                 }

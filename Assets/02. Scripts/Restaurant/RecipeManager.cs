@@ -15,7 +15,7 @@ public class RecipeManager : MonoBehaviour
     public List<Item> items;
     private Inventory inventory;
 
-    private List<MenuSlot> menuList;
+    public GameObject cookBoardSlotPrefab;
     public Image backImage;
 
     public GameObject recipeBoard;
@@ -26,6 +26,10 @@ public class RecipeManager : MonoBehaviour
     private GameObject menuParent;
     private MenuSlot[] menuSlots;
     private TextMeshProUGUI menuBoardTitle;
+
+    public GameObject cookBoard;
+    private GameObject cookParent;
+    private TextMeshProUGUI cookBoardTitle;
 
     public GameObject menuSelectBoard;
     public Slider countSlider;
@@ -57,6 +61,10 @@ public class RecipeManager : MonoBehaviour
         menuSlots = menuParent.GetComponentsInChildren<MenuSlot>();
         menuBoardTitle = menuBoard.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
+        cookBoard = transform.parent.transform.GetChild(3).gameObject;
+        cookParent = cookBoard.transform.GetChild(0).GetChild(1).GetChild(0).GetChild(0).gameObject;
+        cookBoardTitle = cookBoard.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
+
         menuSelectBoard = recipeBoard.transform.GetChild(2).gameObject;
         countSlider = menuSelectBoard.transform.GetChild(0).GetChild(1).GetComponent<Slider>();
         checkButton = menuSelectBoard.transform.GetChild(0).GetChild(2).GetComponent<Button>();
@@ -71,13 +79,15 @@ public class RecipeManager : MonoBehaviour
         {
             if (menuSelectBoard.activeSelf)
                 menuSelectBoard.SetActive(false);
-            else if (recipeBoard.activeSelf || menuBoard.activeSelf)
+            else if (recipeBoard.activeSelf || menuBoard.activeSelf || cookBoard.activeSelf)
             {
                 GameManager.Instance.isUIOpen = false;
                 RestaurantManager.Instance.isCooking = false;
                 backImage.enabled = false;
                 recipeBoard.SetActive(false);
                 menuBoard.SetActive(false);
+                cookBoard.SetActive(false);
+                CookBoardInit();
             }
         }
         else if (Input.GetKeyDown(KeyCode.KeypadEnter))
@@ -124,7 +134,6 @@ public class RecipeManager : MonoBehaviour
                         inventory.UseItem(_recipe.item.ingredients[j].ItemID, _recipe.item.ingredientsCount[j] * _num);
                     }
 
-                    menuList[i] = menuSlots[i];
                     MenuBoardInit();
                     return;
                 }
@@ -132,7 +141,7 @@ public class RecipeManager : MonoBehaviour
         }
 
         // 새로운 판매 메뉴 추가
-        for(int i = 0; i <= menuSlots.Length; i++)
+        for(int i = 0; i < menuSlots.Length; i++)
         {
             if (menuSlots[i].isUnLook && menuSlots[i].recipe == null)
             {
@@ -144,7 +153,6 @@ public class RecipeManager : MonoBehaviour
                     inventory.UseItem(_recipe.item.ingredients[j].ItemID, _recipe.item.ingredientsCount[j] * _num);
                 }
 
-                menuList.Add(menuSlots[i]);
                 MenuBoardInit();
                 return;
             }
@@ -152,37 +160,46 @@ public class RecipeManager : MonoBehaviour
     }
 
     // 메뉴판 관리
-    public void MenuBoardHandler(MachineType _machineType, float _pos)
+    public void MenuBoardHandler(MachineType _machineType)
     {
-        menuBoardTitle.text = (_machineType == MachineType.None) ? "메뉴판" : ((_machineType == MachineType.GasStove) ? "가스 버너" : "음료 제작대");
-        menuBoard.GetComponent<RectTransform>().localPosition = new Vector3(_pos, 0, 0);
-        menuBoard.SetActive(true);
+        cookBoardTitle.text = (_machineType == MachineType.GasStove) ? "가스 버너" : "음료 제작대";
+        cookBoard.SetActive(true);
 
-        if(_machineType == MachineType.None)
+        for(int i = 0; i <  menuSlots.Length; i++)
         {
-
-        }
-        else if(_machineType == MachineType.GasStove)
-        {
-            for (int i = 0; i < menuSlots.Length; i++)
-                menuSlots[i].DisableInit();
-
-            for(int i = 0; i <  menuSlots.Length; i++)
+            if (menuSlots[i].isUnLook && menuSlots[i].recipe != null)
             {
-                if (menuList[i] != null)
+                if (menuSlots[i].recipe.item.RecipeType == _machineType)
                 {
-                    if(menuList[i].recipe.item.RecipeType == MachineType.GasStove)
-                    {
+                    MenuSlot _cookMenu = Instantiate(cookBoardSlotPrefab, cookParent.transform).GetComponent<MenuSlot>();
+                    _cookMenu.AddMenuSlot(menuSlots[i].recipe, menuSlots[i].currentNum, menuSlots[i].totalNum);
 
-                    }
+                    if (menuSlots[i].currentNum == 0)
+                        _cookMenu.soldOut.SetActive(true);
                 }
             }
-
         }
-        else if(_machineType == MachineType.BeverageMachine)
+    }
+
+    // 레시피 비교
+    public MenuSlot RecipeCompare(Item _recipe)
+    {
+        for (int i = 0; i < menuSlots.Length; i++)
         {
-
+            if (menuSlots[i].isUnLook && menuSlots[i].recipe != null)
+            {
+                if (_recipe.item.ItemID == menuSlots[i].recipe.item.ItemID)
+                    return menuSlots[i];
+            }
         }
+        return null;
+    }
+
+    // 조리 메뉴판 초기화
+    public void CookBoardInit()
+    {
+        foreach (Transform child in cookParent.transform)
+            DestroyImmediate(child.gameObject);
     }
 
     public Item AddOrder()

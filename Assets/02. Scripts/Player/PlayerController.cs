@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     private string currentAnim = "";
     private const float moveThreshold = 0.01f;
 
+    public GameObject servingFood;
+
     public bool isMove = false;
     public bool isHolding = false;
 
@@ -86,11 +88,17 @@ public class PlayerController : MonoBehaviour
     {
         if (isMove)
         {
-            PlayAnim("Walking");
+            if (isHolding)
+                PlayAnim("Carry_Walking");
+            else
+                PlayAnim("Walking");
         }
         else
         {
-            PlayAnim("Idle");
+            if (isHolding)
+                PlayAnim("Carry_Idle");
+            else
+                PlayAnim("Idle");
         }
     }
 
@@ -102,5 +110,17 @@ public class PlayerController : MonoBehaviour
 
         currentSkeleton.AnimationState.SetAnimation(0, animName, loop);
         currentAnim = animName;
+    }
+
+    // 스킨 변경
+    public void ChangeSkin(string _skinName)
+    {
+        for(int i = 0; i < skeletons.Length; i++)
+        {
+            if (_skinName != default && i == 1)
+                continue;
+            skeletons[i].initialSkinName = _skinName;
+            skeletons[i].Initialize(true);
+        }
     }
 }

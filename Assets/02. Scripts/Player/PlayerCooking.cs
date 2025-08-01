@@ -3,14 +3,18 @@ using UnityEngine.UI;
 
 public class PlayerCooking : MonoBehaviour
 {
+    private PlayerController playerController;
     private Item cookFood;
     private Slider cookingSlider;
+
+    public GameObject[] foods;
 
     private float cookingTime = 0.0f;
     private float currentTime = 0.0f;
 
     private void Awake()
     {
+        playerController = GetComponent<PlayerController>();
         cookingSlider = transform.GetChild(3).GetChild(1).GetComponent<Slider>();
     }
 
@@ -27,10 +31,13 @@ public class PlayerCooking : MonoBehaviour
         }
         else
         {
-            currentTime = 0.0f;
-            cookFood = null;
+            CompleteCook();
+            playerController.ChangeSkin(cookFood.item.ItemName);
             RestaurantManager.Instance.isCooking = false;
             cookingSlider.gameObject.SetActive(false);
+            playerController.isHolding = true;
+            currentTime = 0.0f;
+            cookFood = null;
         }
     }
 
@@ -56,5 +63,18 @@ public class PlayerCooking : MonoBehaviour
         cookFood = _cookItem;
         currentTime = 0.0f;
         cookingTime = cookFood.item.CookTime * 2.0f;
+    }
+
+    // 요리 완성
+    public void CompleteCook()
+    {
+        for(int i = 0; i < foods.Length; i++)
+        {
+            if(foods[i].GetComponent<Item>().item.ItemName == cookFood.item.ItemName)
+            {
+                playerController.servingFood = foods[i];
+                return;
+            }
+        }
     }
 }

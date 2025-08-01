@@ -9,8 +9,6 @@ public class PlayerBehaviour : MonoBehaviour
     private GameObject interactionObject;
     public TextMeshProUGUI interactionText;
 
-    private GameObject servingFood;
-
     public RaycastHit2D hit;
     public Vector2 dir;
 
@@ -57,7 +55,7 @@ public class PlayerBehaviour : MonoBehaviour
                     GameManager.Instance.isUIOpen = true;
                     RecipeManager.Instance.backImage.enabled = true;
                     RecipeManager.Instance.recipeBoard.SetActive(true);
-                    RecipeManager.Instance.MenuBoardHandler(MachineType.None, 400.0f);
+                    RecipeManager.Instance.menuBoard.SetActive(true);
                 }
             }
         }
@@ -105,7 +103,7 @@ public class PlayerBehaviour : MonoBehaviour
                     {
                         GameManager.Instance.isUIOpen = true;
                         RestaurantManager.Instance.isCooking = true;
-                        RecipeManager.Instance.MenuBoardHandler(_machine.machineType, 0.0f);
+                        RecipeManager.Instance.MenuBoardHandler(_machine.machineType);
                     }
                 }
             }
@@ -115,9 +113,6 @@ public class PlayerBehaviour : MonoBehaviour
     // 음식 거치하기
     public void OnFoodStand()
     {
-        if (!playerController.isHolding)
-            return;
-
         if(hit.collider != null)
         {
             MachineController _machine = hit.collider?.GetComponent<MachineController>();
@@ -126,11 +121,27 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 if(_machine.machineType == MachineType.FoodStand)
                 {
-                    InteractionHandler("거치하기");
-
-                    if (Input.GetKeyDown(KeyCode.E))
+                    if(_machine.food == null)
                     {
+                        InteractionHandler("거치하기");
 
+                        if (Input.GetKeyDown(KeyCode.E))
+                        {
+                            _machine.AddStorageFood(playerController.servingFood, hit.collider.transform);
+                            playerController.ChangeSkin("default");
+                            playerController.isHolding = false;
+                        }
+                    }
+                    else
+                    {
+                        InteractionHandler("서빙하기");
+
+                        if (Input.GetKeyDown(KeyCode.E))
+                        {
+                            playerController.ChangeSkin(_machine.food.GetComponent<Item>().item.ItemName);
+                            playerController.isHolding = true;
+                            _machine.DellStorageFood();
+                        }
                     }
                 }
             }
@@ -145,13 +156,12 @@ public class PlayerBehaviour : MonoBehaviour
             CustomerController _customer = hit.collider?.GetComponent<CustomerController>();
             if (_customer != null && _customer.isWaitFood && playerController.isHolding)
             {
-                if (_customer.orderMenu.item.ItemID == servingFood.GetComponent<Item>().item.ItemID)
+                if (_customer.orderMenu.item.ItemID == playerController.servingFood.GetComponent<Item>().item.ItemID)
                 {
                     InteractionHandler("서빙하기");
 
                     if (Input.GetKeyDown(KeyCode.E))
                     {
-                        Destroy(servingFood);
                         playerController.isHolding = false;
                         StartCoroutine(_customer.ReceiveFood());
                     }
