@@ -363,7 +363,7 @@ Tilemap:
       e10: 0
       e11: 1
       e12: 0
-      e13: 0.35
+      e13: 0.33
       e20: 0
       e21: 0
       e22: 1
@@ -532,7 +532,7 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
---- !u!114 &815048409384556231
+--- !u!114 &6466358256995887964
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
